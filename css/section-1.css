@@ -1,7 +1,7 @@
 .hero-section {
     position: relative;
     height: 100vh; /* ارتفاع كامل الشاشة */
-    background: url(assets/image/contactors.jpg) no-repeat center center/cover;
+    background: url(../assets/image/contractors.jpg) no-repeat center center/cover;
     display: flex;
     align-items: center;
     justify-content: center;
