@@ -6,7 +6,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 300px;
   text-align: center;
-  margin: 20px auto; /* لتوسيط العنصر */
+  margin: 30px auto; /* لتوسيط العنصر */
 }
 
 h2 {
@@ -16,7 +16,7 @@ h2 {
 
 .input-group {
   margin-bottom: 15px;
-  text-align: left;
+  text-align: right;
 }
 
 label {
