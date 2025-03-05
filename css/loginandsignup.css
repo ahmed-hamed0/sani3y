@@ -1,11 +1,13 @@
 /* تنسيقات عامة للعناصر */
 .container {
+    direction: rtl;
+    text-align: right;
   background-color: white;
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 300px;
-  text-align: center;
+  
   margin: 30px auto; /* لتوسيط العنصر */
 }
 
