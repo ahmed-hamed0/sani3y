@@ -1,0 +1,28 @@
+footer {
+            background-color: #5555bb;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        .social-links, .legal-links, .contact-info {
+            margin-bottom: 15px;
+        }
+        .social-links a, .legal-links a {
+            display: inline-block;
+            margin: 5px;
+        }
+        .contact-info {
+            font-size: 0.9em;
+        }
+        .copyright {
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
