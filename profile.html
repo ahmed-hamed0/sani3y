@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الصفحة الشخصية للصنايعي</title>
+  <style>
+    /* التصميم العام */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      text-align: right;
+      color: #333;
+    }
+
+    /* الهيدر */
+    header {
+      background-color: #008000; /* لون أخضر */
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 32px;
+    }
+
+    /* القسم الرئيسي */
+    .profile-container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .profile-info img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin-left: 20px;
+      border: 4px solid #008000;
+    }
+
+    .profile-info h2 {
+      margin: 0;
+      font-size: 28px;
+      color: #008000;
+    }
+
+    .profile-info p {
+      margin: 5px 0;
+      font-size: 18px;
+      color: #555;
+    }
+
+    .profile-info .rating {
+      color: #ffcc00; /* لون النجوم */
+      font-size: 24px;
+    }
+
+    .profile-info .rating span {
+      color: #555;
+      font-size: 16px;
+    }
+
+    /* معرض الأعمال */
+    .gallery {
+      margin-top: 30px;
+    }
+
+    .gallery h3 {
+      font-size: 24px;
+      color: #008000;
+      margin-bottom: 15px;
+    }
+
+    .gallery .images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .gallery .images img {
+      width: calc(33.333% - 10px);
+      border-radius: 8px;
+      border: 2px solid #ddd;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .gallery .images img:hover {
+      transform: scale(1.05);
+      border-color: #008000;
+    }
+
+    /* التقييمات */
+    .reviews {
+      margin-top: 30px;
+    }
+
+    .reviews h3 {
+      font-size: 24px;
+      color: #008000;
+      margin-bottom: 15px;
+    }
+
+    .reviews .review {
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+    }
+
+    .reviews .review .reviewer {
+      font-weight: bold;
+      color: #008000;
+    }
+
+    .reviews .review .rating {
+      color: #ffcc00;
+      font-size: 18px;
+    }
+
+    .reviews .review .comment {
+      margin-top: 5px;
+      color: #555;
+    }
+
+    /* وسائل التواصل */
+    .contact {
+      margin-top: 30px;
+    }
+
+    .contact h3 {
+      font-size: 24px;
+      color: #008000;
+      margin-bottom: 15px;
+    }
+
+    .contact ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .contact ul li {
+      margin-bottom: 10px;
+    }
+
+    .contact ul li a {
+      color: #008000;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .contact ul li a:hover {
+      text-decoration: underline;
+    }
+
+    /* الفوتر */
+    footer {
+      background-color: #008000;
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <!-- الهيدر -->
+  <header>
+    <h1>الصفحة الشخصية للصنايعي</h1>
+  </header>
+
+  <!-- القسم الرئيسي -->
+  <div class="profile-container">
+    <!-- معلومات الصنايعي -->
+    <div class="profile-info">
+      <img src="assets/image/craftsman.jpg" alt="صورة الصنايعي">
+      <div>
+        <h2>محمد أحمد</h2>
+        <p>نجار محترف</p>
+        <div class="rating">
+          ★★★★★ <span>(4.9)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- معرض الأعمال -->
+    <div class="gallery">
+      <h3>معرض الأعمال</h3>
+      <div class="images">
+        <img src="assets/image/work1.jpg" alt="عمل 1">
+        <img src="assets/image/work2.jpg" alt="عمل 2">
+        <img src="assets/image/work3.jpg" alt="عمل 3">
+        <img src="assets/image/work4.jpg" alt="عمل 4">
+        <img src="assets/image/work5.jpg" alt="عمل 5">
+        <img src="assets/image/work6.jpg" alt="عمل 6">
+      </div>
+    </div>
+
+    <!-- التقييمات -->
+    <div class="reviews">
+      <h3>التقييمات</h3>
+      <div class="review">
+        <div class="reviewer">علي محمود</div>
+        <div class="rating">★★★★★</div>
+        <div class="comment">عمل ممتاز، أنصح به بشدة!</div>
+      </div>
+      <div class="review">
+        <div class="reviewer">سارة خالد</div>
+        <div class="rating">★★★★☆</div>
+        <div class="comment">جودة عالية، ولكن تأخر قليلاً في التسليم.</div>
+      </div>
+    </div>
+
+    <!-- وسائل التواصل -->
+    <div class="contact">
+      <h3>وسائل التواصل</h3>
+      <ul>
+        <li><a href="tel:+123456789">اتصل بي: 0123456789</a></li>
+        <li><a href="mailto:craftsman@example.com">البريد الإلكتروني: craftsman@example.com</a></li>
+        <li><a href="https://wa.me/123456789" target="_blank">واتساب: 0123456789</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- الفوتر -->
+  <footer>
+    <p>صنايعى دوت كوم © 2025. جميع الحقوق محفوظة.</p>
+  </footer>
+</body>
+</html>
