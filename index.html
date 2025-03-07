@@ -76,7 +76,7 @@
 
     .hero h1,
     .hero p,
-    .hero button {
+    .hero a {
       position: relative;
       z-index: 1;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* إضافة ظل للنصوص */
@@ -92,7 +92,7 @@
       margin-bottom: 30px;
     }
 
-    .hero button {
+    .hero a {
       background-color: green; /* اللون الأخضر */
       color: #fff; /* لون النصوص الأبيض */
       border: none;
@@ -102,9 +102,11 @@
       border-radius: 4px;
       transition: background-color 0.3s ease; /* تأثير الانتقال */
       box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); /* إضافة ظل للزر */
+      text-decoration: none; /* إزالة التسطير من الرابط */
+      display: inline-block; /* لجعل الرابط يتصرف كزر */
     }
 
-    .hero button:hover {
+    .hero a:hover {
       background-color: #45a049; /* لون أخضر أغمق عند hover */
     }
 
@@ -176,7 +178,7 @@
   <section class="hero">
     <h1>ابحث عن أفضل الصنايعية في منطقتك</h1>
     <p>سجل الآن وابحث عن صنايعي محترف أو اعرض خدماتك كصنايعي.</p>
-    <button>سجل الآن</button>
+    <a href="signup.html">سجل الآن</a> <!-- تم تغيير الزر إلى رابط -->
   </section>
 
   <!-- الفوتر -->
