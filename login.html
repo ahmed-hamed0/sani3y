@@ -12,17 +12,108 @@
       background-color: #f4f4f4;
       text-align: right;
     }
+
+    /* الهيدر */
     header {
       background-color: #008000; /* اللون الأخضر الجديد */
       color: #fff;
-      padding: 10px 15px;
-      text-align: right;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+
     header a {
       color: #fff;
       text-decoration: none;
       font-size: 24px;
+      font-weight: bold;
     }
+
+    /* أيقونة القائمة */
+    .menu-icon {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .menu-icon div {
+      width: 25px;
+      height: 3px;
+      background-color: #fff;
+      margin: 4px 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* تحويل الأيقونة إلى علامة الإلغاء (X) */
+    .menu-icon.active div:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .menu-icon.active div:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-icon.active div:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* القائمة */
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #c8e6c9;
+    }
+
+    /* القائمة المنسدلة لتغطية الصفحة */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: #008000; /* اللون الأخضر الجديد */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .overlay.active {
+      display: flex;
+    }
+
+    .overlay a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 24px;
+      margin: 15px 0;
+    }
+
+    /* التصميم المتجاوب */
+    @media (max-width: 768px) {
+      .menu-icon {
+        display: flex;
+      }
+
+      nav {
+        display: none;
+      }
+    }
+
     .container {
       max-width: 400px;
       margin: 50px auto;
@@ -31,19 +122,23 @@
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+
     .container h2 {
       text-align: center;
       margin-bottom: 20px;
       color: #008000; /* اللون الأخضر الجديد */
     }
+
     .input-group {
       margin-bottom: 15px;
     }
+
     .input-group label {
       display: block;
       margin-bottom: 5px;
       color: #008000; /* اللون الأخضر الجديد */
     }
+
     .input-group input {
       width: 100%;
       padding: 10px;
@@ -51,6 +146,7 @@
       border-radius: 4px;
       box-sizing: border-box;
     }
+
     button {
       width: 100%;
       padding: 10px;
@@ -60,17 +156,21 @@
       border-radius: 4px;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #006400; /* لون أخضر أغمق قليلاً */
     }
+
     p {
       text-align: center;
       margin-top: 15px;
     }
+
     p a {
       color: #008000; /* اللون الأخضر الجديد */
       text-decoration: none;
     }
+
     footer {
       background-color: #008000; /* اللون الأخضر الجديد */
       color: #fff;
@@ -83,13 +183,32 @@
   </style>
 </head>
 <body>
+  <!-- الهيدر -->
   <header>
-    <div>
-      <div>
-        <a href="index.html" id="site-name">صنايعى دوت كوم</a>
-      </div>
+    <a href="index.html">صنايعى دوت كوم</a>
+    <div class="menu-icon" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
+    <nav>
+      <a href="profile.html">ابحث عن صنايعي</a>
+      <a href="find-work.html">ابحث عن عمل</a>
+      <a href="why-us.html">لماذا نحن؟</a>
+      <a href="pricing.html">الأسعار</a>
+      <a href="login.html">تسجيل الدخول</a>
+    </nav>
   </header>
+
+  <!-- القائمة المنسدلة لتغطية الصفحة -->
+  <div class="overlay" id="overlayMenu">
+    <a href="profile.html">ابحث عن صنايعي</a>
+    <a href="find-work.html">ابحث عن عمل</a>
+    <a href="why-us.html">لماذا نحن؟</a>
+    <a href="pricing.html">الأسعار</a>
+    <a href="login.html">تسجيل الدخول</a>
+  </div>
+
   <div class="container">
     <h2>تسجيل الدخول</h2>
     <form id="loginForm">
@@ -145,6 +264,15 @@
           alert('حدث خطأ: ' + errorMessage);
         });
     });
+
+    // تفعيل القائمة المنسدلة
+    function toggleMenu() {
+      const menuIcon = document.querySelector('.menu-icon');
+      const overlayMenu = document.getElementById('overlayMenu');
+
+      menuIcon.classList.toggle('active');
+      overlayMenu.classList.toggle('active');
+    }
   </script>
 </body>
 </html>
