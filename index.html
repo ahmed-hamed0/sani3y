@@ -14,12 +14,15 @@
       background-color: #fff; /* خلفية بيضاء */
       text-align: right;
       color: #000; /* لون النصوص الأسود */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     /* الهيدر */
     header {
-      background-color: green; /* خلفية بيضاء */
-      color: #000; /* لون النصوص الأسود */
+      background-color: green; /* خلفية خضراء */
+      color: #fff; /* لون النصوص الأبيض */
       padding: 10px 20px;
       display: flex;
       justify-content: space-between;
@@ -28,7 +31,7 @@
     }
 
     header a {
-      color: #000; /* لون النصوص الأسود */
+      color: #fff; /* لون النصوص الأبيض */
       text-decoration: none;
       font-size: 24px;
       font-weight: bold;
@@ -40,24 +43,25 @@
     }
 
     header nav a {
-      color: #000; /* لون النصوص الأسود */
+      color: #fff; /* لون النصوص الأبيض */
       text-decoration: none;
       font-size: 16px;
       transition: color 0.3s ease; /* تأثير الانتقال */
     }
 
     header nav a:hover {
-      color: #4CAF50; /* لون أخضر عند hover */
+      color: #c8e6c9; /* لون أخضر فاتح عند hover */
     }
 
     /* القسم الرئيسي مع صورة الخلفية */
     .hero {
-      background: url(../assets/image/contractors.jpg) no-repeat center center/cover;
+      background: url('assets/image/contractors.jpg') no-repeat center center/cover;
       background-position: center;
       padding: 100px 20px;
       text-align: center;
       color: #000; /* لون النصوص الأسود */
       position: relative;
+      flex: 1;
     }
 
     .hero::before {
@@ -104,12 +108,12 @@
 
     /* فوتر */
     footer {
-      background-color: #fff; /* خلفية بيضاء */
-      color: #000; /* لون النصوص الأسود */
+      background-color: green; /* خلفية خضراء */
+      color: #fff; /* لون النصوص الأبيض */
       text-align: center;
       padding: 20px;
-      margin-top: 50px;
       box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      margin-top: auto; /* يضمن بقاء الفوتر في الأسفل */
     }
 
     footer p {
@@ -118,13 +122,13 @@
     }
 
     footer a {
-      color: #000; /* لون النصوص الأسود */
+      color: #fff; /* لون النصوص الأبيض */
       text-decoration: none;
       transition: color 0.3s ease; /* تأثير الانتقال */
     }
 
     footer a:hover {
-      color: #4CAF50; /* لون أخضر عند hover */
+      color: #c8e6c9; /* لون أخضر فاتح عند hover */
     }
 
     /* التصميم المتجاوب */
