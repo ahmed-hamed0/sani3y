@@ -7,7 +7,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyDxd_9W5-Qc8rqSfGrKogla3xmHBX8liIg",
   authDomain: "sani3ydotcom.firebaseapp.com",
   projectId: "sani3ydotcom",
-  storageBucket: "YOUR_STORAGE_BUCKET",
+  storageBucket: "sani3ydotcom.appspot.com", // استبدل هذا بالقيمة الصحيحة إذا كنت تعرفها
   messagingSenderId: "880517005136",
   appId: "1:880517005136:web:e7f08efdadee45ec943655"
 };
@@ -28,6 +28,17 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
   const userType = document.getElementById('userType').value;
   const specialty = document.getElementById('specialty').value;
 
+  // تحقق من الحقول المطلوبة
+  if (!fullName || !email || !phone || !password || !userType) {
+    alert('الرجاء ملء جميع الحقول المطلوبة');
+    return;
+  }
+
+  // إظهار رسالة تحميل
+  const submitButton = document.querySelector('#signupForm button[type="submit"]');
+  submitButton.disabled = true;
+  submitButton.textContent = 'جاري إنشاء الحساب...';
+
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
@@ -42,10 +53,36 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
       });
     })
     .then(() => {
+      // إخفاء رسالة التحميل
+      submitButton.disabled = false;
+      submitButton.textContent = 'إنشاء حساب';
+
+      // عرض رسالة نجاح
       alert('تم إنشاء الحساب بنجاح!');
-      window.location.href = 'login.html'; // Redirect to login page
+
+      // توجيه المستخدم إلى صفحة تسجيل الدخول
+      window.location.href = 'login.html';
     })
     .catch((error) => {
-      alert('حدث خطأ: ' + error.message);
+      // إخفاء رسالة التحميل
+      submitButton.disabled = false;
+      submitButton.textContent = 'إنشاء حساب';
+
+      // عرض رسالة خطأ مفصلة
+      let errorMessage = 'حدث خطأ أثناء إنشاء الحساب: ';
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          errorMessage += 'البريد الإلكتروني مستخدم بالفعل.';
+          break;
+        case 'auth/invalid-email':
+          errorMessage += 'البريد الإلكتروني غير صالح.';
+          break;
+        case 'auth/weak-password':
+          errorMessage += 'كلمة المرور ضعيفة. يجب أن تحتوي على 6 أحرف على الأقل.';
+          break;
+        default:
+          errorMessage += error.message;
+      }
+      alert(errorMessage);
     });
 });
