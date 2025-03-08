@@ -4,12 +4,12 @@ import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
+  apiKey: "AIzaSyDxd_9W5-Qc8rqSfGrKogla3xmHBX8liIg",
+  authDomain: "sani3ydotcom.firebaseapp.com",
+  projectId: "sani3ydotcom",
   storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  messagingSenderId: "880517005136",
+  appId: "1:880517005136:web:e7f08efdadee45ec943655"
 };
 
 // Initialize Firebase
