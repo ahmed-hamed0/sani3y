@@ -1,16 +1,15 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDxd_9W5-Qc8rqSfGrKogla3xmHBX8liIg",
-  authDomain: "sani3ydotcom.firebaseapp.com",
-  projectId: "sani3ydotcom",
-  storageBucket: "sani3ydotcom.appspot.com",
-  messagingSenderId: "880517005136",
-  appId: "1:880517005136:web:89d6863a0f476395943655"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
 
 // Initialize Firebase
@@ -29,16 +28,11 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
   const userType = document.getElementById('userType').value;
   const specialty = document.getElementById('specialty').value;
 
-  if (!fullName || !email || !phone || !password || !userType) {
-    alert('الرجاء ملء جميع الحقول المطلوبة');
-    return;
-  }
-
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
 
-      // Save user data to Firestore
+      // Save additional user data to Firestore
       return setDoc(doc(db, "users", user.uid), {
         fullName: fullName,
         email: email,
@@ -48,16 +42,10 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
       });
     })
     .then(() => {
-      alert('تم إنشاء الحساب وتخزين البيانات بنجاح!');
-      window.location.href = 'login.html';
+      alert('تم إنشاء الحساب بنجاح!');
+      window.location.href = 'login.html'; // Redirect to login page
     })
     .catch((error) => {
-      alert('حدث خطأ أثناء التسجيل: ' + error.message);
+      alert('حدث خطأ: ' + error.message);
     });
-});
-
-// Show/hide specialty field based on user type
-document.getElementById('userType').addEventListener('change', function() {
-  const specialtyGroup = document.getElementById('specialtyGroup');
-  specialtyGroup.style.display = this.value === 'craftsman' ? 'block' : 'none';
 });
