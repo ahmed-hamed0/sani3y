@@ -6,7 +6,7 @@
   <title>التسجيل</title>
   <script type="module" src="register.js" defer></script>
   <style>
-    body {
+   body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
@@ -253,42 +253,14 @@
   </footer>
 
   <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_AUTH_DOMAIN",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_STORAGE_BUCKET",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
+    // تفعيل القائمة المنسدلة
+    function toggleMenu() {
+      const menuIcon = document.querySelector('.menu-icon');
+      const overlayMenu = document.getElementById('overlayMenu');
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-
-    // Handle signup form submission
-    document.getElementById('signupForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const fullName = document.getElementById('fullName').value;
-      const email = document.getElementById('email').value;
-      const phone = document.getElementById('phone').value;
-      const password = document.getElementById('password').value;
-      const userType = document.getElementById('userType').value;
-      const specialty = document.getElementById('specialty').value;
-
-      firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          // Signed up
-          const user = userCredential.user;
-          alert('تم إنشاء الحساب بنجاح');
-          // Save additional user data to Firestore or Realtime Database if needed
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          alert('حدث خطأ: ' + errorMessage);
-        });
-    });
+      menuIcon.classList.toggle('active');
+      overlayMenu.classList.toggle('active');
+    }
 
     // Show/hide specialty field based on user type
     document.getElementById('userType').addEventListener('change', function() {
@@ -299,15 +271,6 @@
         specialtyGroup.style.display = 'none';
       }
     });
-
-    // تفعيل القائمة المنسدلة
-    function toggleMenu() {
-      const menuIcon = document.querySelector('.menu-icon');
-      const overlayMenu = document.getElementById('overlayMenu');
-
-      menuIcon.classList.toggle('active');
-      overlayMenu.classList.toggle('active');
-    }
   </script>
 </body>
 </html>
