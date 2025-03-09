@@ -179,19 +179,26 @@
 
     /* قسم الصنايعي مع الصورة والأزرار */
     .craftsman-section {
-      padding: 50px 20px;
-      background-color: #f4f4f4;
+      padding: 100px 20px; /* زيادة المساحة */
+      background: url('assets/image/craftsman.jpg') no-repeat center center/cover;
+      background-position: center;
       text-align: center;
+      position: relative;
     }
 
-    .craftsman-section img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 10px;
-      margin-bottom: 20px;
+    .craftsman-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5); /* طبقة شبه شفافة */
     }
 
     .craftsman-section .buttons {
+      position: relative;
+      z-index: 1;
       display: flex;
       justify-content: center;
       gap: 20px;
@@ -329,7 +336,6 @@
 
   <!-- قسم الصنايعي مع الصورة والأزرار -->
   <section class="craftsman-section">
-    <img src="assets/image/craftsman.jpg" alt="صنايعي">
     <div class="buttons">
       <a href="login.html">تسجيل الدخول</a>
       <a href="signup.html">الاشتراك الآن</a>
