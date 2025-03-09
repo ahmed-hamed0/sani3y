@@ -126,7 +126,7 @@
     .hero {
       background: url('assets/image/contractors.jpg') no-repeat center center/cover;
       background-position: center;
-      padding: 100px 20px;
+      padding: 130px 20px; /* زيادة المساحة */
       text-align: center;
       color: #000;
       position: relative;
@@ -177,10 +177,46 @@
       background-color: #45a049;
     }
 
+    /* قسم الصنايعي مع الصورة والأزرار */
+    .craftsman-section {
+      padding: 50px 20px;
+      background-color: #f4f4f4;
+      text-align: center;
+    }
+
+    .craftsman-section img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .craftsman-section .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .craftsman-section .buttons a {
+      background-color: green;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+    }
+
+    .craftsman-section .buttons a:hover {
+      background-color: #45a049;
+    }
+
     /* قسم "لماذا تختار صنايعى دوت كوم؟" */
     .features {
       padding: 50px 20px;
-      background-color: #f4f4f4;
+      background-color: #fff;
       text-align: center;
     }
 
@@ -205,8 +241,8 @@
 
     /* قسم متابعتنا على شبكات التواصل الاجتماعي */
     .social-media {
-      padding: 30px 20px;
-      background-color: #fff;
+      padding: 50px 20px; /* زيادة المساحة */
+      background-color: #f4f4f4;
       text-align: center;
     }
 
@@ -291,6 +327,15 @@
     <a href="signup.html">سجل الآن</a>
   </section>
 
+  <!-- قسم الصنايعي مع الصورة والأزرار -->
+  <section class="craftsman-section">
+    <img src="assets/image/craftsman.jpg" alt="صنايعي">
+    <div class="buttons">
+      <a href="login.html">تسجيل الدخول</a>
+      <a href="signup.html">الاشتراك الآن</a>
+    </div>
+  </section>
+
   <!-- قسم "لماذا تختار صنايعى دوت كوم؟" -->
   <section class="features">
     <h2>لماذا تختار صنايعى دوت كوم؟</h2>
@@ -313,7 +358,7 @@
     <h2>تابعنا على شبكات التواصل الاجتماعي</h2>
     <div class="social-icons">
       <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
-      <a href="https://x.com" target="_blank"><i class="fab fa-x"></i></i></a>
+      <a href="https://x.com" target="_blank"><i class="fab fa-x"></i></a>
       <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
       <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
     </div>
