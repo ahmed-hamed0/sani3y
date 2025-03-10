@@ -216,6 +216,53 @@
       background-color: #45a049;
     }
 
+    /* قسم عدد الصناعيين والعملاء المسجلين */
+    .stats {
+      background-color: #f9f9f9;
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .stats-content h2 {
+      color: green;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+    .stats-numbers {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 200px;
+    }
+
+    .stat-item span {
+      font-size: 36px;
+      font-weight: bold;
+      color: green;
+    }
+
+    .stat-item p {
+      font-size: 18px;
+      color: #333;
+      margin-top: 10px;
+    }
+
+    /* أيقونات Font Awesome */
+    .stat-item i {
+      font-size: 40px;
+      color: green;
+      margin-bottom: 10px;
+    }
+
     /* قسم "لماذا تختار صنايعى دوت كوم؟" */
     .features {
       padding: 50px 20px;
@@ -336,6 +383,25 @@
     <div class="buttons">
       <a href="login.html">تسجيل الدخول</a>
       <a href="signup.html">سجل الآن</a>
+    </div>
+  </section>
+
+  <!-- قسم عدد الصناعيين والعملاء المسجلين -->
+  <section class="stats">
+    <div class="stats-content">
+      <h2>انضم إلى مجتمعنا الآن</h2>
+      <div class="stats-numbers">
+        <div class="stat-item">
+          <i class="fas fa-user-cog"></i> <!-- أيقونة الصنايعي -->
+          <span id="craftsmenCount">50+</span>
+          <p>صنايعي مسجل</p>
+        </div>
+        <div class="stat-item">
+          <i class="fas fa-user"></i> <!-- أيقونة العميل -->
+          <span id="clientsCount">20+</span>
+          <p>عميل مسجل</p>
+        </div>
+      </div>
     </div>
   </section>
 
