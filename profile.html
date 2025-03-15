@@ -16,58 +16,108 @@
     }
 
     /* الهيدر */
-    header {
-      background-color: #008000; /* لون أخضر */
+       header {
+      background-color: green;
       color: #fff;
       padding: 10px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      position: relative;
-    }
-
-    header .logo img {
-      height: 40px; /* ارتفاع صورة الشعار */
-    }
-
-    header .icons {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-    }
-
-    header .icons i {
-      font-size: 24px;
-      cursor: pointer;
-    }
-
-    header .search-bar {
-      display: none;
-      position: absolute;
+      position: sticky; /* تثبيت الهيدر عند التمرير */
       top: 0;
-      right: 0;
-      left: 0;
-      background-color: #008000;
-      padding: 10px 20px;
+      z-index: 1000; /* التأكد من ظهور الهيدر فوق العناصر الأخرى */
+     
+    }
+
+    header a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    /* أيقونة القائمة */
+    .menu-icon {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
       z-index: 1000;
     }
 
-    header .search-bar.active {
+    .menu-icon div {
+      width: 25px;
+      height: 3px;
+      background-color: #fff;
+      margin: 4px 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* تحويل الأيقونة إلى علامة الإلغاء (X) */
+    .menu-icon.active div:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .menu-icon.active div:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-icon.active div:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* القائمة */
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #c8e6c9;
+    }
+
+    /* القائمة المنسدلة لتغطية الصفحة */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: green;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .overlay.active {
       display: flex;
     }
 
-    header .search-bar input {
-      width: 100%;
-      padding: 5px 10px;
-      border: none;
-      border-radius: 4px;
-      font-size: 16px;
+    .overlay a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 24px;
+      margin: 15px 0;
     }
 
-    header .search-bar i {
-      margin-left: 10px;
-      cursor: pointer;
+    /* التصميم المتجاوب */
+    @media (max-width: 768px) {
+      .menu-icon {
+        display: flex;
+      }
+
+      nav {
+        display: none;
+      }
     }
 
     /* القسم الرئيسي */
@@ -243,22 +293,29 @@
 <body>
   <!-- الهيدر -->
   <header>
-    <div class="icons">
-      <i class="fas fa-bars" onclick="toggleMenu()"></i> <!-- أيقونة القائمة -->
+    <a href="index.html">صنايعى دوت كوم</a>
+    <div class="menu-icon" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
-    <div class="logo">
-      <img src="assets/image/smalllogo.png" alt="شعار صنايعى دوت كوم"> <!-- صورة الشعار -->
-    </div>
-    <div class="icons">
-      <i class="fas fa-search" onclick="toggleSearch()"></i> <!-- أيقونة البحث -->
-    </div>
-
-    <!-- شريط البحث -->
-    <div class="search-bar" id="searchBar">
-      <input type="text" placeholder="ابحث هنا...">
-      <i class="fas fa-times" onclick="toggleSearch()"></i> <!-- أيقونة إغلاق البحث -->
-    </div>
+    <nav>
+      <a href="profile.html">ابحث عن صنايعي</a>
+      <a href="find-work.html">ابحث عن عمل</a>
+      <a href="why-us.html">لماذا نحن؟</a>
+      <a href="pricing.html">الأسعار</a>
+      <a href="login.html">تسجيل الدخول</a>
+    </nav>
   </header>
+
+  <!-- القائمة المنسدلة لتغطية الصفحة -->
+  <div class="overlay" id="overlayMenu">
+    <a href="profile.html">ابحث عن صنايعي</a>
+    <a href="find-work.html">ابحث عن عمل</a>
+    <a href="why-us.html">لماذا نحن؟</a>
+    <a href="pricing.html">الأسعار</a>
+    <a href="login.html">تسجيل الدخول</a>
+  </div>
 
   <!-- القسم الرئيسي -->
   <div class="profile-container">
