@@ -16,7 +16,7 @@
     }
 
     /* الهيدر */
-       header {
+    header {
       background-color: green;
       color: #fff;
       padding: 10px 20px;
@@ -24,10 +24,9 @@
       justify-content: space-between;
       align-items: center;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      position: sticky; /* تثبيت الهيدر عند التمرير */
+      position: sticky;
       top: 0;
-      z-index: 1000; /* التأكد من ظهور الهيدر فوق العناصر الأخرى */
-     
+      z-index: 1000;
     }
 
     header a {
@@ -120,7 +119,7 @@
       }
     }
 
-    /* القسم الرئيسي */
+     /* القسم الرئيسي */
     .profile-container {
       max-width: 1200px;
       margin: 20px auto;
@@ -287,7 +286,7 @@
       font-size: 14px;
     }
   </style>
-    <link rel="icon" type="image/png" href="assets/image/toolsman.svg">
+  <link rel="icon" type="image/png" href="assets/image/toolsman.svg">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -376,5 +375,13 @@
     <p>صنايعى دوت كوم © 2025. جميع الحقوق محفوظة.</p>
   </footer>
 
- </body>
+  <script>
+    function toggleMenu() {
+      const menuIcon = document.querySelector('.menu-icon');
+      const overlayMenu = document.getElementById('overlayMenu');
+      menuIcon.classList.toggle('active');
+      overlayMenu.classList.toggle('active');
+    }
+  </script>
+</body>
 </html>
