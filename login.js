@@ -33,3 +33,31 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
       alert('حدث خطأ: ' + error.message);
     });
 });
+
+import { auth, db } from "./firebase.js";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+
+// التحقق من المستخدم الحالي
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      const userData = userSnap.data();
+      console.log("بيانات المستخدم:", userData);
+
+      // توجيه المستخدم إلى الصفحة المناسبة
+      if (userData.role === "client") {
+        window.location.href = "clientProfile.html";
+      } else if (userData.role === "worker") {
+        window.location.href = "Profile.html";
+      }
+    } else {
+      console.log("لم يتم العثور على بيانات المستخدم في Firestore");
+    }
+  } else {
+    console.log("المستخدم غير مسجل دخول");
+  }
+});
