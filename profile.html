@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="icon" type="image/png" href="assets/image/toolsman.svg">
+  <link rel="icon" type="image/png" href="assets/image/toolsman.svg">
   <title>الصفحة الشخصية - صنايعى دوت كوم</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     /* التصميم العام */
     body {
@@ -309,9 +306,10 @@
       font-size: 14px;
     }
   </style>
-  <link rel="icon" type="image/png" href="assets/image/toolsman.svg">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- تحميل Firebase -->
+  <script src="js/firebase.js"></script>
+  <script src="js/profile.js" defer></script>
 </head>
 <body>
   <!-- الهيدر -->
@@ -346,11 +344,11 @@
     <div class="profile-info">
       <img src="assets/image/man.jpg" alt="صورة الصنايعي">
       <div class="details">
-        <h2 id="userName">محمد أحمد <div class="status"></div></h2>
-        <p id="userType"><i class="fas fa-tools"></i>فنى تبريد وتكييف</p>      
-        <p><i class="fas fa-map-marker-alt"></i>6 اكتوبر - الجيزة</p>
+        <h2 id="userName">جارٍ التحميل...</h2>
+        <p id="userType"><i class="fas fa-tools"></i> جارٍ التحميل...</p>      
+        <p id="location"><i class="fas fa-map-marker-alt"></i> جارٍ التحميل...</p>
         <div class="rating">
-          ★★★★★ <span>(4.9)</span>
+          ★★★★★ <span>(جارٍ التحميل...)</span>
         </div>
       </div>
     </div>
@@ -362,9 +360,6 @@
         <img src="assets/image/man1.jpg" alt="عمل 1">
         <img src="assets/image/man2.jpg" alt="عمل 2">
         <img src="assets/image/man1.jpg" alt="عمل 3">
-        <img src="assets/image/man2.jpg" alt="عمل 4">
-        <img src="assets/image/man1.jpg" alt="عمل 5">
-        <img src="assets/image/man2.jpg" alt="عمل 6">
       </div>
     </div>
 
@@ -372,14 +367,9 @@
     <div class="reviews">
       <h3>التقييمات</h3>
       <div class="review">
-        <div class="reviewer">علي محمود</div>
+        <div class="reviewer">جارٍ التحميل...</div>
         <div class="rating">★★★★★</div>
-        <div class="comment">عمل ممتاز، أنصح به بشدة!</div>
-      </div>
-      <div class="review">
-        <div class="reviewer">سارة خالد</div>
-        <div class="rating">★★★★☆</div>
-        <div class="comment">جودة عالية، ولكن تأخر قليلاً في التسليم.</div>
+        <div class="comment">جارٍ التحميل...</div>
       </div>
     </div>
 
@@ -387,11 +377,10 @@
     <div class="contact">
       <h3>وسائل التواصل</h3>
       <ul>
-        <li><a href="tel:+123456789" id="phone">اتصل بي: 0123456789</a></li>
-        <li><a href="https://wa.me/123456789" target="_blank"  id="phone">واتساب: 0123456789</a></li>
-         <li><a href="mailto:craftsman@example.com" id="email">البريد الإلكتروني: craftsman@example.com</a></li>
+        <li><a href="#" id="phone">جارٍ التحميل...</a></li>
+        <li><a href="#" id="email">جارٍ التحميل...</a></li>
       </ul>
-          <button onclick="logoutUser()">تسجيل الخروج</button>
+      <button onclick="logoutUser()">تسجيل الخروج</button>
     </div>
   </div>
 
@@ -399,41 +388,6 @@
   <footer>
     <p>صنايعى دوت كوم © 2025. جميع الحقوق محفوظة.</p>
   </footer>
-
-  <script>
-    function toggleMenu() {
-      const menuIcon = document.querySelector('.menu-icon');
-      const overlayMenu = document.getElementById('overlayMenu');
-      menuIcon.classList.toggle('active');
-      overlayMenu.classList.toggle('active');
-    }
-
-    import { auth, db } from "./firebase.js"; // تأكد من المسار الصحيح لملف firebase.js
-import { doc, getDoc } from "firebase/firestore";
-
-// تحميل بيانات المستخدم عند فتح الصفحة
-async function loadUserProfile() {
-  const user = auth.currentUser;
-  if (user) {
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
-
-    if (userSnap.exists()) {
-      const userData = userSnap.data();
-      document.getElementById("userName").innerText = userData.name;
-      document.getElementById("userEmail").innerText = userData.email;
-      document.getElementById("userPhone").innerText = userData.phone;
-      document.getElementById("userRole").innerText = userData.role === "client" ? "عميل" : "صنايعي";
-    }
-  }
-}
-
-// تحميل البيانات عند فتح الصفحة
-window.onload = loadUserProfile;
-
-  </script>
-
-
-    <script type="module" src="profile.js"></script>
 </body>
 </html>
+
