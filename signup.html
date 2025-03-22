@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="icon" type="image/png" href="assets/image/toolsman.svg">
+  <link rel="icon" type="image/png" href="assets/image/toolsman.svg">
   <title>تسجيل جديد - صنايعى دوت كوم</title>
-  <script type="module" src="js/register.js" defer></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -188,6 +183,10 @@
       bottom: 0;
     }
   </style>
+
+  <!-- تحميل Firebase -->
+  <script src="js/firebase.js"></script>
+  <script src="js/register.js" defer></script>
 </head>
 <body>
   <!-- الهيدر -->
@@ -323,7 +322,7 @@
           <option value="">اختر المدينة</option>
         </select>
       </div>
-      <button type="submit" onclick="registerUser()">إنشاء حساب</button>
+      <button type="submit">إنشاء حساب</button>
     </form>
     <p>لديك حساب بالفعل؟ <a href="login.html">سجل الدخول</a></p>
   </div>
@@ -487,6 +486,6 @@
       }
     });
   </script>
-   <script type="module" src="js/register.js"></script>
-</body>
+   </body>
 </html>
+
