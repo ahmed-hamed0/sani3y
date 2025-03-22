@@ -62,3 +62,39 @@ onAuthStateChanged(auth, async (user) => {
     console.log("المستخدم غير مسجل دخول");
   }
 });
+
+import { auth, db } from "./firebase.js";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+
+async function loginUser() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // جلب بيانات المستخدم
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists()) {
+            const userData = userSnap.data();
+            alert("تم تسجيل الدخول بنجاح!");
+
+            // توجيه المستخدم حسب نوع الحساب
+            if (userData.role === "client") {
+                window.location.href = "profile.html";
+            } else {
+                window.location.href = "profile.html";
+            }
+        }
+    } catch (error) {
+        alert("خطأ: " + error.message);
+    }
+}
+
+// تصدير الدالة
+window.loginUser = loginUser;
+
