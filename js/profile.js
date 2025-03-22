@@ -1,3 +1,6 @@
+// profile.js
+import { auth, db } from './firebase.js';
+
 auth.onAuthStateChanged((user) => {
   if (user) {
     db.collection("users").doc(user.uid).get()
