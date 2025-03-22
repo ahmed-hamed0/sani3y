@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="assets/image/toolsman.svg">
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
   <title>تسجيل جديد - صنايعى دوت كوم</title>
   <style>
-    body {
+     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
@@ -186,8 +186,6 @@
       bottom: 0;
     }
   </style>
-
-  <!-- تحميل Firebase -->
   <script src="js/firebase.js"></script>
   <script src="js/register.js" defer></script>
 </head>
@@ -209,7 +207,7 @@
     </nav>
   </header>
 
-  <!-- القائمة المنسدلة لتغطية الصفحة -->
+  <!-- القائمة المنسدلة -->
   <div class="overlay" id="overlayMenu">
     <a href="profile.html">ابحث عن صنايعي</a>
     <a href="find-work.html">ابحث عن عمل</a>
@@ -218,6 +216,7 @@
     <a href="login.html">تسجيل الدخول</a>
   </div>
 
+  <!-- نموذج التسجيل -->
   <div class="container">
     <h2>تسجيل جديد</h2>
     <form id="signupForm">
@@ -246,8 +245,8 @@
       </div>
       <div class="input-group" id="specialtyGroup" style="display: none;">
         <label for="specialty">التخصص</label>
-        <select id="specialty" required>
-            <option value="">اختر التخصص</option>
+        <select id="specialty">
+          <option value="">اختر التخصص</option>
             <option value="سباك صحي">سباك صحي</option>
             <option value="مقاول بناء">مقاول بناء</option>
             <option value="مبيض محارة">مبيض محارة</option>
@@ -330,6 +329,7 @@
     <p>لديك حساب بالفعل؟ <a href="login.html">سجل الدخول</a></p>
   </div>
 
+  <!-- الفوتر -->
   <footer>
     <div class="copyright">
       sani3y.com © 2025
@@ -341,23 +341,12 @@
     function toggleMenu() {
       const menuIcon = document.querySelector('.menu-icon');
       const overlayMenu = document.getElementById('overlayMenu');
-
       menuIcon.classList.toggle('active');
       overlayMenu.classList.toggle('active');
     }
 
-    // Show/hide specialty field based on user type
-    document.getElementById('userType').addEventListener('change', function() {
-      const specialtyGroup = document.getElementById('specialtyGroup');
-      if (this.value === 'craftsman') {
-        specialtyGroup.style.display = 'block';
-      } else {
-        specialtyGroup.style.display = 'none';
-      }
-    });
-
     // بيانات المدن لكل محافظة
-  const cities = {
+    const cities = {
   "القاهرة": [
     "وسط البلد", "المعادي", "مدينة نصر", "مصر الجديدة", "العباسية", "حلوان", "شبرا", 
     "عين شمس", "التجمع الخامس", "الزمالك", "المرج", "السيدة زينب", "المطرية", "الوايلي", 
@@ -470,15 +459,12 @@
     "رأس سدر", "جنوب سيناء الجديدة"
   ]
 };
+
     // تحديث قائمة المدن بناءً على المحافظة المختارة
     document.getElementById('governorate').addEventListener('change', function() {
       const citySelect = document.getElementById('city');
       const selectedGovernorate = this.value;
-
-      // مسح القائمة الحالية
       citySelect.innerHTML = '<option value="">اختر المدينة</option>';
-
-      // إضافة المدن الخاصة بالمحافظة المختارة
       if (selectedGovernorate && cities[selectedGovernorate]) {
         cities[selectedGovernorate].forEach(city => {
           const option = document.createElement('option');
@@ -489,6 +475,5 @@
       }
     });
   </script>
-   </body>
+</body>
 </html>
-
