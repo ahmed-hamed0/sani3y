@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="icon" type="image/png" href="assets/image/toolsman.svg">
+  <link rel="icon" type="image/png" href="assets/image/toolsman.svg">
   <title>تسجيل الدخول - صنايعى دوت كوم</title>
-  <script type="module" src="js/login.js" defer></script>
+  <script src="js/firebase.js"></script>
+  <script src="js/login.js"></script>
   <style>
-     body {
+    body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
@@ -181,35 +182,13 @@
       position: fixed;
       width: 100%;
       bottom: 0;
-    }
+    
   </style>
 </head>
 <body>
-  <!-- الهيدر -->
   <header>
     <a href="index.html">صنايعى دوت كوم</a>
-    <div class="menu-icon" onclick="toggleMenu()">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    <nav>
-      <a href="profile.html">ابحث عن صنايعي</a>
-      <a href="find-work.html">ابحث عن عمل</a>
-      <a href="why-us.html">لماذا نحن؟</a>
-      <a href="pricing.html">الأسعار</a>
-      <a href="signup.html">إنشاء حساب</a>
-    </nav>
   </header>
-
-  <!-- القائمة المنسدلة لتغطية الصفحة -->
-  <div class="overlay" id="overlayMenu">
-    <a href="profile.html">ابحث عن صنايعي</a>
-    <a href="find-work.html">ابحث عن عمل</a>
-    <a href="why-us.html">لماذا نحن؟</a>
-    <a href="pricing.html">الأسعار</a>
-    <a href="signup.html">إنشاء حساب</a>
-  </div>
 
   <div class="container">
     <h2>تسجيل الدخول</h2>
@@ -222,7 +201,7 @@
         <label for="password">كلمة المرور</label>
         <input type="password" id="password" required>
       </div>
-      <button type="submit" onclick="loginUser()>تسجيل الدخول</button>
+      <button type="submit">تسجيل الدخول</button>
     </form>
     <p>ليس لديك حساب؟ <a href="signup.html">إنشاء حساب</a></p>
   </div>
@@ -232,17 +211,6 @@
       sani3y.com © 2025
     </div>
   </footer>
-
-  <script>
-    // تفعيل القائمة المنسدلة
-    function toggleMenu() {
-      const menuIcon = document.querySelector('.menu-icon');
-      const overlayMenu = document.getElementById('overlayMenu');
-
-      menuIcon.classList.toggle('active');
-      overlayMenu.classList.toggle('active');
-    }
-  </script>
-   <script type="module" src="js/login.js"></script>
 </body>
 </html>
+
