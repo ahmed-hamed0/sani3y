@@ -13,10 +13,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const governorate = document.getElementById('governorate').value;
     const city = document.getElementById('city').value;
 
+    // تحقق من صحة البيانات
+    if (!fullName || !email || !phone || !password || !userType || !governorate || !city) {
+      alert('يرجى ملء جميع الحقول المطلوبة.');
+      return;
+    }
+
+    if (userType === 'worker' && !specialty) {
+      alert('يرجى اختيار التخصص.');
+      return;
+    }
+
     // تسجيل المستخدم باستخدام Firebase Authentication
-    firebase.auth().createUserWithEmailAndPassword(email, password)
+    auth.createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
-        // تم تسجيل المستخدم بنجاح
         const user = userCredential.user;
 
         // حفظ البيانات الإضافية في Firestore
@@ -32,15 +42,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       })
       .then(() => {
-        // إعادة توجيه المستخدم إلى صفحة الملف الشخصي أو الصفحة الرئيسية
         alert('تم تسجيل الحساب بنجاح!');
-        window.location.href = 'profile.html';
+        window.location.href = 'profile.html'; // توجيه المستخدم إلى صفحة الملف الشخصي
       })
       .catch((error) => {
-        // معالجة الأخطاء
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(`حدث خطأ: ${errorMessage}`);
+        console.error('Error:', error);
+        alert(`حدث خطأ: ${error.message}`);
       });
+  });
+
+  // إظهار/إخفاء حقل التخصص بناءً على نوع المستخدم
+  document.getElementById('userType').addEventListener('change', function() {
+    const specialtyGroup = document.getElementById('specialtyGroup');
+    if (this.value === 'worker') {
+      specialtyGroup.style.display = 'block';
+    } else {
+      specialtyGroup.style.display = 'none';
+    }
   });
 });
