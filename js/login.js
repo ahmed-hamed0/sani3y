@@ -1,3 +1,6 @@
+// login.js
+import { auth } from './firebase.js';
+
 document.getElementById('loginForm').addEventListener('submit', function(event) {
   event.preventDefault();
 
