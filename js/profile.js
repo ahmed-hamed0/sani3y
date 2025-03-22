@@ -1,27 +1,23 @@
-import { auth, db } from "./firebase.js";
-import { doc, getDoc } from "firebase/firestore";
-import { signOut } from "firebase/auth";
-
-async function loadUserProfile() {
-    const user = auth.currentUser;
-    if (user) {
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
-
-        if (userSnap.exists()) {
-            const userData = userSnap.data();
-            document.getElementById("userName").innerText = userData.name;
-            document.getElementById("userEmail").innerText = userData.email;
-            document.getElementById("userPhone").innerText = userData.phone;
-            document.getElementById("userRole").innerText = userData.role === "client" ? "عميل" : "صنايعي";
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    db.collection("users").doc(user.uid).get()
+      .then((doc) => {
+        if (doc.exists) {
+          document.getElementById("userName").innerText = doc.data().fullName;
+          document.getElementById("userEmail").innerText = doc.data().email;
+          document.getElementById("userPhone").innerText = doc.data().phone;
+          document.getElementById("userRole").innerText = doc.data().userType === "client" ? "عميل" : "صنايعي";
         }
-    }
-}
+      });
+  } else {
+    window.location.href = "login.html";
+  }
+});
 
 // تسجيل الخروج
-window.logoutUser = async function () {
-    await signOut(auth);
+function logoutUser() {
+  auth.signOut().then(() => {
     window.location.href = "login.html";
-};
-
-window.onload = loadUserProfile;
+  });
+}
+window.logoutUser = logoutUser;
