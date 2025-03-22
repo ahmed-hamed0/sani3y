@@ -343,7 +343,7 @@
       <img src="assets/image/man.jpg" alt="صورة الصنايعي">
       <div class="details">
         <h2 id="userName">محمد أحمد <div class="status"></div></h2>
-        <p><i class="fas fa-tools"></i>فنى تبريد وتكييف</p>      
+        <p id="userType"><i class="fas fa-tools"></i>فنى تبريد وتكييف</p>      
         <p><i class="fas fa-map-marker-alt"></i>6 اكتوبر - الجيزة</p>
         <div class="rating">
           ★★★★★ <span>(4.9)</span>
@@ -383,10 +383,11 @@
     <div class="contact">
       <h3>وسائل التواصل</h3>
       <ul>
-        <li><a href="tel:+123456789" id="userPhone">اتصل بي: 0123456789</a></li>
-        <li><a href="https://wa.me/123456789" target="_blank">واتساب: 0123456789</a></li>
-         <li><a href="mailto:craftsman@example.com" id="userEmail">البريد الإلكتروني: craftsman@example.com</a></li>
+        <li><a href="tel:+123456789" id="phone">اتصل بي: 0123456789</a></li>
+        <li><a href="https://wa.me/123456789" target="_blank"  id="phone">واتساب: 0123456789</a></li>
+         <li><a href="mailto:craftsman@example.com" id="email">البريد الإلكتروني: craftsman@example.com</a></li>
       </ul>
+          <button onclick="logoutUser()">تسجيل الخروج</button>
     </div>
   </div>
 
@@ -427,5 +428,8 @@ async function loadUserProfile() {
 window.onload = loadUserProfile;
 
   </script>
+
+
+    <script type="module" src="profile.js"></script>
 </body>
 </html>
