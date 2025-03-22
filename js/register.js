@@ -86,3 +86,38 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
       alert(errorMessage);
     });
 });
+
+import { auth, db } from "./firebase.js";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
+
+// دالة تسجيل المستخدم
+async function registerUser() {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const role = document.getElementById("role").value;
+    const phone = document.getElementById("phone").value;
+
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // حفظ بيانات المستخدم في Firestore
+        await setDoc(doc(db, "users", user.uid), {
+            name: name,
+            email: email,
+            role: role,
+            phone: phone
+        });
+
+        alert("تم التسجيل بنجاح!");
+        window.location.href = "login.html"; // الانتقال إلى صفحة تسجيل الدخول
+    } catch (error) {
+        alert("خطأ: " + error.message);
+    }
+}
+
+// تصدير الدالة لجعلها تعمل عند النقر على زر التسجيل
+window.registerUser = registerUser;
+
