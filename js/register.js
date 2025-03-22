@@ -1,3 +1,6 @@
+// register.js
+import { auth, db } from './firebase.js';
+
 document.addEventListener('DOMContentLoaded', function() {
   const signupForm = document.getElementById('signupForm');
 
@@ -12,17 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const specialty = document.getElementById('specialty').value;
     const governorate = document.getElementById('governorate').value;
     const city = document.getElementById('city').value;
-
-    // تحقق من صحة البيانات
-    if (!fullName || !email || !phone || !password || !userType || !governorate || !city) {
-      alert('يرجى ملء جميع الحقول المطلوبة.');
-      return;
-    }
-
-    if (userType === 'worker' && !specialty) {
-      alert('يرجى اختيار التخصص.');
-      return;
-    }
 
     // تسجيل المستخدم باستخدام Firebase Authentication
     auth.createUserWithEmailAndPassword(email, password)
@@ -43,21 +35,11 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .then(() => {
         alert('تم تسجيل الحساب بنجاح!');
-        window.location.href = 'profile.html'; // توجيه المستخدم إلى صفحة الملف الشخصي
+        window.location.href = 'profile.html';
       })
       .catch((error) => {
         console.error('Error:', error);
         alert(`حدث خطأ: ${error.message}`);
       });
-  });
-
-  // إظهار/إخفاء حقل التخصص بناءً على نوع المستخدم
-  document.getElementById('userType').addEventListener('change', function() {
-    const specialtyGroup = document.getElementById('specialtyGroup');
-    if (this.value === 'worker') {
-      specialtyGroup.style.display = 'block';
-    } else {
-      specialtyGroup.style.display = 'none';
-    }
   });
 });
