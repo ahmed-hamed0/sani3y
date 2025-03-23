@@ -45,3 +45,28 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   });
 });
+auth.createUserWithEmailAndPassword(email, password)
+  .then((userCredential) => {
+    const user = userCredential.user;
+    console.log('تم تسجيل المستخدم:', user);
+
+    return db.collection('users').doc(user.uid).set({
+      fullName: fullName,
+      email: email,
+      phone: phone,
+      userType: userType,
+      specialty: userType === 'worker' ? specialty : null,
+      governorate: governorate,
+      city: city,
+      createdAt: new Date()
+    });
+  })
+  .then(() => {
+    console.log('تم حفظ البيانات في Firestore');
+    alert('تم تسجيل الحساب بنجاح!');
+    window.location.href = 'profile.html';
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+    alert(`حدث خطأ: ${error.message}`);
+  });
