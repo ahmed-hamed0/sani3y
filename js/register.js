@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
     auth.createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        console.log('تم تسجيل المستخدم:', user);
 
         // حفظ البيانات الإضافية في Firestore
         return db.collection('users').doc(user.uid).set({
@@ -30,10 +31,11 @@ document.addEventListener('DOMContentLoaded', function() {
           specialty: userType === 'worker' ? specialty : null,
           governorate: governorate,
           city: city,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          createdAt: new Date()
         });
       })
       .then(() => {
+        console.log('تم حفظ البيانات في Firestore');
         alert('تم تسجيل الحساب بنجاح!');
         window.location.href = 'profile.html';
       })
