@@ -31,7 +31,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     }
     
     // توجيه المستخدم حسب نوعه (يمكنك تعديل هذا الجزء حسب احتياجاتك)
-    window.location.href = user.displayName ? 'profile.html' : 'complete-profile.html';
+    window.location.href = user.displayName ? 'profile.html' : 'profile.html';
     
   } catch (error) {
     // معالجة الأخطاء
