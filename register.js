@@ -2,7 +2,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { 
   getAuth, 
-  createUserWithEmailAndPassword 
+  createUserWithEmailAndPassword,
+  sendEmailVerification 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { 
   getFirestore, 
@@ -15,7 +16,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyDxd_9W5-Qc8rqSfGrKogla3xmHBX8liIg",
   authDomain: "sani3ydotcom.firebaseapp.com",
   projectId: "sani3ydotcom",
-  storageBucket: "sani3ydotcom.appspot.com", // تم تصحيح هذا الحقل
+  storageBucket: "sani3ydotcom.appspot.com",
   messagingSenderId: "880517005136",
   appId: "1:880517005136:web:e7f08efdadee45ec943655"
 };
@@ -24,7 +25,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
 
 // DOM Elements
 const signupForm = document.getElementById('signupForm');
@@ -40,6 +40,12 @@ userTypeSelect.addEventListener('change', function() {
 signupForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   
+  // إدارة حالة الزر أثناء التحميل
+  const submitBtn = document.querySelector('button[type="submit"]');
+  const originalBtnText = submitBtn.textContent;
+  submitBtn.textContent = 'جاري إنشاء الحساب...';
+  submitBtn.disabled = true;
+
   // جمع بيانات النموذج
   const fullName = document.getElementById('fullName').value;
   const email = document.getElementById('email').value;
@@ -52,6 +58,8 @@ signupForm.addEventListener('submit', async (e) => {
 
   // التحقق من صحة البيانات
   if (!validateForm(fullName, email, phone, password, governorate, city, userType, specialty)) {
+    submitBtn.textContent = originalBtnText;
+    submitBtn.disabled = false;
     return;
   }
 
@@ -59,6 +67,9 @@ signupForm.addEventListener('submit', async (e) => {
     // إنشاء المستخدم في Firebase Authentication
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
+
+    // إرسال بريد التحقق
+    await sendEmailVerification(user);
 
     // حفظ بيانات المستخدم الإضافية في Firestore
     await setDoc(doc(db, "users", user.uid), {
@@ -72,19 +83,23 @@ signupForm.addEventListener('submit', async (e) => {
       createdAt: new Date(),
       profileCompleted: false,
       rating: userType === 'worker' ? 0 : null,
-      jobsCompleted: userType === 'worker' ? 0 : null
+      jobsCompleted: userType === 'worker' ? 0 : null,
+      emailVerified: false
     });
 
     // توجيه المستخدم بناءً على نوعه
     if (userType === 'worker') {
-      alert('تم تسجيل حسابك بنجاح! يرجى إكمال ملفك الشخصي.');
+      alert('تم تسجيل حسابك بنجاح! يرجى التحقق من بريدك الإلكتروني ثم إكمال ملفك الشخصي.');
       window.location.href = 'complete-profile.html';
     } else {
-      alert('تم تسجيل حسابك بنجاح!');
+      alert('تم تسجيل حسابك بنجاح! يرجى التحقق من بريدك الإلكتروني.');
       window.location.href = 'profile.html';
     }
+
   } catch (error) {
     handleSignupError(error);
+    submitBtn.textContent = originalBtnText;
+    submitBtn.disabled = false;
   }
 });
 
@@ -147,8 +162,9 @@ function handleSignupError(error) {
     case 'auth/network-request-failed':
       errorMessage = 'مشكلة في الاتصال بالإنترنت';
       break;
+    default:
+      console.error('Signup error:', error);
   }
   
   alert(errorMessage);
-  console.error('Signup error:', error);
 }
