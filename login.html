@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="assets/image/toolsman.svg">
   <title>تسجيل الدخول - صنايعى دوت كوم</title>
-   <!-- في نهاية ملف login.html -->
-<script type="module" src="firebase.js"></script>
-<script type="module" src="login.js"></script>
+  
+  <!-- إضافة مكتبات Firebase قبل الملفات الخاصة بك -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -182,7 +184,33 @@
       padding: 10px 0;
       position: fixed;
       width: 100%;
-      bottom: 0;
+      bottom: 0;}
+
+    
+    .loading {
+      display: none;
+      text-align: center;
+      color: #008000;
+      margin: 10px 0;
+    }
+    
+    .error-message {
+      color: #ff0000;
+      text-align: center;
+      margin: 10px 0;
+      display: none;
+    }
+    
+    .forgot-password {
+      text-align: left;
+      margin-top: -10px;
+      margin-bottom: 15px;
+    }
+    
+    .forgot-password a {
+      color: #008000;
+      font-size: 14px;
+    }
     
   </style>
 </head>
@@ -201,8 +229,15 @@
       <div class="input-group">
         <label for="password">كلمة المرور</label>
         <input type="password" id="password" required>
+        <div class="forgot-password">
+          <a href="reset-password.html">نسيت كلمة المرور؟</a>
+        </div>
       </div>
-      <button type="submit">تسجيل الدخول</button>
+      
+      <div id="loading" class="loading">جاري تسجيل الدخول...</div>
+      <div id="errorMessage" class="error-message"></div>
+      
+      <button type="submit" id="loginBtn">تسجيل الدخول</button>
     </form>
     <p>ليس لديك حساب؟ <a href="signup.html">إنشاء حساب</a></p>
   </div>
@@ -213,6 +248,9 @@
     </div>
   </footer>
 
+  <!-- تحميل الملفات البرمجية بعد تحميل الصفحة -->
+  <script type="module" src="firebase-config.js"></script>
+  <script type="module" src="login.js"></script>
 </body>
 </html>
 
