@@ -305,6 +305,31 @@
       margin: 0;
       font-size: 14px;
     }
+
+    .loading-state {
+  display: none;
+  text-align: center;
+  padding: 10px;
+  color: #008000;
+  font-size: 18px;
+}
+
+.profile-info .details {
+  position: relative;
+}
+
+.profile-info .loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
   </style>
     <!-- في نهاية ملف profile.html -->
 <script type="module" src="firebase.js"></script>
@@ -341,17 +366,20 @@
   <!-- القسم الرئيسي -->
   <div class="profile-container">
     <!-- معلومات الصنايعي -->
-    <div class="profile-info">
-      <img src="assets/image/man.jpg" alt="صورة الصنايعي">
-      <div class="details">
-        <h2 id="userName">جارٍ التحميل...</h2>
-        <p id="userType"><i class="fas fa-tools"></i> جارٍ التحميل...</p>      
-        <p id="location"><i class="fas fa-map-marker-alt"></i> جارٍ التحميل...</p>
-        <div class="rating">
-          ★★★★★ <span>(جارٍ التحميل...)</span>
-        </div>
-      </div>
+   <div class="profile-info">
+  <img src="assets/image/man.jpg" alt="صورة الصنايعي">
+  <div class="details">
+    <div class="loading-overlay loading-state">
+      <div>جاري تحميل البيانات...</div>
     </div>
+    <h2 id="userName">جارٍ التحميل...</h2>
+    <p id="userType"><i class="fas fa-tools"></i> جارٍ التحميل...</p>      
+    <p id="location"><i class="fas fa-map-marker-alt"></i> جارٍ التحميل...</p>
+    <div class="rating">
+      ★★★★★ <span>(جارٍ التحميل...)</span>
+    </div>
+  </div>
+</div>
 
     <!-- معرض الأعمال -->
     <div class="gallery">
