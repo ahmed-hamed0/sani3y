@@ -492,6 +492,39 @@
   }
 }
 
+
+    .error-message {
+  background-color: #ffeeee;
+  color: #d32f2f;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #ef9a9a;
+  margin: 20px auto;
+  max-width: 800px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: right;
+}
+
+.error-message i {
+  font-size: 24px;
+}
+
+.success-message {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #a5d6a7;
+  margin: 20px auto;
+  max-width: 800px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: right;
+}
+    
     /* فوتر */
     footer {
       background-color: green;
@@ -601,6 +634,10 @@
     <!-- سيتم ملء هذا القسم بالنتائج من JavaScript -->
     <div class="no-results">قم بتطبيق الفلتر لعرض نتائج البحث</div>
   </div>
+  <div id="errorMessage" class="error-message" style="display: none;">
+  <i class="fas fa-exclamation-circle"></i>
+  <span id="errorText"></span>
+  </div>
 </section>
 
   <!-- قسم الصنايعي مع الصورة والأزرار -->
@@ -701,31 +738,60 @@
   });
 
   // معالجة نموذج الفلتر
-  document.getElementById('filterForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const governorate = document.getElementById('governorate').value;
-    const city = document.getElementById('city').value;
-    const specialty = document.getElementById('specialty').value;
-    
-    try {
-      // بناء استعلام Firestore
-      const q = query(
-        collection(db, "users"),
-        where("userType", "==", "worker"),
-        where("governorate", "==", governorate),
-        where("city", "==", city),
-        where("specialty", "==", specialty)
-      );
-      
-      const querySnapshot = await getDocs(q);
-      displayResults(querySnapshot);
-    } catch (error) {
-      console.error("Error searching workers:", error);
-      alert("حدث خطأ أثناء البحث. يرجى المحاولة لاحقاً.");
-    }
-  });
+  
+// دالة لعرض رسائل الخطأ
+function showError(message) {
+  const errorDiv = document.getElementById('errorMessage');
+  const errorText = document.getElementById('errorText');
+  
+  errorText.textContent = message;
+  errorDiv.style.display = 'flex';
+  
+  // إخفاء الرسالة بعد 5 ثواني
+  setTimeout(() => {
+    errorDiv.style.display = 'none';
+  }, 5000);
+}
 
+// في كود البحث، استبدل alert بدالة showError
+document.getElementById('filterForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  
+  const governorate = document.getElementById('governorate').value;
+  const city = document.getElementById('city').value;
+  const specialty = document.getElementById('specialty').value;
+  
+  // إخفاء أي رسائل خطأ سابقة
+  document.getElementById('errorMessage').style.display = 'none';
+  
+  // التحقق من إدخال جميع الحقول
+  if (!governorate || !city || !specialty) {
+    showError('الرجاء اختيار جميع خيارات الفلترة');
+    return;
+  }
+  
+  try {
+    const q = query(
+      collection(db, "users"),
+      where("userType", "==", "worker"),
+      where("governorate", "==", governorate),
+      where("city", "==", city),
+      where("specialty", "==", specialty)
+    );
+    
+    const querySnapshot = await getDocs(q);
+    
+    if (querySnapshot.empty) {
+      showError('لا توجد نتائج مطابقة لبحثك. حاول بتغيير معايير البحث');
+    } else {
+      displayResults(querySnapshot);
+    }
+    
+  } catch (error) {
+    console.error("Error searching workers:", error);
+    showError('حدث خطأ تقني أثناء البحث. يرجى المحاولة لاحقاً أو التواصل مع الدعم الفني');
+  }
+});
   // عرض نتائج البحث
   function displayResults(querySnapshot) {
     const resultsContainer = document.getElementById('workersResults');
