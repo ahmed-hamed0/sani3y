@@ -43,7 +43,21 @@ async function loadUserProfile() {
 
   try {
     // عرض حالة التحميل
-    showLoadingState(true);
+    function showLoadingState(isLoading) {
+  const loadingOverlay = document.querySelector('.loading-overlay');
+  
+  if (isLoading) {
+    loadingOverlay.style.display = 'flex';
+    document.querySelectorAll('button').forEach(btn => {
+      btn.disabled = true;
+    });
+  } else {
+    loadingOverlay.style.display = 'none';
+    document.querySelectorAll('button').forEach(btn => {
+      btn.disabled = false;
+    });
+  }
+    }};
     
     // جلب بيانات المستخدم من Firestore
     const userDoc = await getDoc(doc(db, "users", user.uid));
