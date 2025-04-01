@@ -614,6 +614,29 @@
   margin-top: 10px;
   text-decoration: none;
 }
+
+    
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  margin: 15px 0;
+  color: #008000;
+  font-size: 18px;
+}
+
+.fa-spin {
+  animation: fa-spin 2s infinite linear;
+}
+
+@keyframes fa-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
     
     /* فوتر */
     footer {
@@ -710,6 +733,12 @@
             <!-- يمكنك إضافة المزيد من التخصصات -->
           </select>
         </div>
+      </div>
+
+
+      <div id="loadingIndicator" class="loading-indicator" style="display: none;">
+  <i class="fas fa-spinner fa-spin"></i>
+  <span>جاري البحث عن الصنايعية...</span>
       </div>
       
       <button type="submit" class="filter-button">
@@ -924,6 +953,60 @@
       resultsContainer.innerHTML += workerCard;
     });
   }
+
+     document.getElementById('filterForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  
+  const loadingIndicator = document.getElementById('loadingIndicator');
+  const searchButton = document.querySelector('.filter-button');
+  const originalButtonText = searchButton.innerHTML;
+  
+  // عرض مؤشر التحميل
+  loadingIndicator.style.display = 'flex';
+  searchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري البحث...';
+  searchButton.disabled = true;
+  
+  const governorate = document.getElementById('governorate').value;
+  const city = document.getElementById('city').value;
+  const specialty = document.getElementById('specialty').value;
+  
+  document.getElementById('errorMessage').style.display = 'none';
+  
+  if (!governorate || !city || !specialty) {
+    showError('الرجاء اختيار جميع خيارات الفلترة');
+    loadingIndicator.style.display = 'none';
+    searchButton.innerHTML = originalButtonText;
+    searchButton.disabled = false;
+    return;
+  }
+  
+  try {
+    const q = query(
+      collection(db, "users"),
+      where("userType", "==", "worker"),
+      where("governorate", "==", governorate),
+      where("city", "==", city),
+      where("specialty", "==", specialty)
+    );
+    
+    const querySnapshot = await getDocs(q);
+    
+    if (querySnapshot.empty) {
+      showError('لا توجد نتائج مطابقة لبحثك. حاول بتغيير معايير البحث');
+    } else {
+      displayResults(querySnapshot);
+    }
+    
+  } catch (error) {
+    console.error("Error searching workers:", error);
+    showError('حدث خطأ تقني أثناء البحث. يرجى المحاولة لاحقاً');
+  } finally {
+    // إخفاء مؤشر التحميل في جميع الحالات
+    loadingIndicator.style.display = 'none';
+    searchButton.innerHTML = originalButtonText;
+    searchButton.disabled = false;
+  }
+});
               </script>
 
   
