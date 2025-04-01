@@ -662,7 +662,48 @@
   <!-- القائمة المنسدلة لتغطية الصفحة -->
   <div class="overlay" id="overlayMenu">
     <a href="profile.html">ابحث عن صنايعي</a>
-    <a href="find-work.html">ابحث عن عمل</a>
+    <a href="find-work.html">ابح<!-- قسم فلترة الصنايعية -->
+<section class="filter-section">
+  <div class="filter-container">
+    <h2>ابحث عن الصنايعية المختصين</h2>
+    <form id="filterForm">
+      <div class="filter-row">
+        <div class="filter-group">
+          <label for="governorate">المحافظة:</label>
+          <select id="governorate" required>
+            <option value="">اختر المحافظة</option>
+            <!-- سيتم تعبئتها بواسطة JavaScript -->
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="city">المدينة:</label>
+          <select id="city" required disabled>
+            <option value="">اختر المدينة</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="specialty">التخصص:</label>
+          <select id="specialty" required>
+            <option value="">اختر التخصص</option>
+            <option value="سباك صحي">سباك صحي</option>
+            <option value="كهربائي منازل">كهربائي منازل</option>
+            <option value="نجار">نجار</option>
+            <option value="مبلط">مبلط</option>
+            <option value="نقاش">نقاش</option>
+            <!-- يمكنك إضافة المزيد من التخصصات -->
+          </select>
+        </div>
+      </div>
+      
+      <button type="submit" class="filter-button">
+        <i class="fas fa-search"></i> بحث
+      </button>
+    </form>
+  </div>
+</section>
+      ث عن عمل</a>
     <a href="why-us.html">لماذا نحن؟</a>
     <a href="pricing.html">الأسعار</a>
     <a href="login.html">تسجيل الدخول</a>
@@ -676,46 +717,7 @@
     <a href="signup.html">تسجيل جديد</a>
   </section>
 
- <!-- قسم البحث والفلترة -->
-<section class="search-section">
-  <div class="search-container">
-    <h2>ابحث عن الصنايعية المختصين</h2>
-    <form id="searchForm">
-      <div class="search-filters">
-        <!-- فلتر المحافظة -->
-        <div class="filter-group">
-          <label for="governorate">المحافظة:</label>
-          <select id="governorate" required>
-            <option value="">اختر المحافظة</option>
-            <!-- يتم تعبئتها من JS -->
-          </select>
-        </div>
-        
-        <!-- فلتر المدينة -->
-        <div class="filter-group">
-          <label for="city">المدينة:</label>
-          <select id="city" required disabled>
-            <option value="">اختر المدينة</option>
-          </select>
-        </div>
-        
-        <!-- فلتر التخصص -->
-        <div class="filter-group">
-          <label for="specialty">التخصص:</label>
-          <select id="specialty" required>
-            <option value="">اختر التخصص</option>
-            <!-- يتم تعبئتها من JS -->
-          </select>
-        </div>
-      </div>
-      
-      <button type="submit" class="search-button">
-        <i class="fas fa-search"></i> بحث
-      </button>
-    </form>
-  </div>
-</section>
-
+ 
 <!-- نتائج البحث -->
 <section class="results-section">
   <div id="searchResults" class="results-grid">
