@@ -1,3 +1,26 @@
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+const auth = getAuth();
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    // إذا كان المستخدم غير مسجل الدخول
+    const profileContent = document.querySelector('.profile-content');
+    const authPrompt = document.querySelector('.auth-prompt');
+    
+    if (profileContent && authPrompt) {
+      profileContent.style.display = 'none';
+      authPrompt.style.display = 'block';
+    } else {
+      window.location.href = "login.html";
+    }
+  } else {
+    // إذا كان مسجل الدخول
+    loadUserProfile();
+  }
+});
+
+
 // profile.js
 import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
