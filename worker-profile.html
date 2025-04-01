@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الملف الشخصي للصنايعي</title>
+  <!-- نفس أنماط profile.html -->
+</head>
+<body>
+  <!-- نفس الهيدر -->
+  
+  <div class="worker-profile-container" id="workerProfile">
+    <!-- سيتم ملؤه بواسطة JavaScript -->
+  </div>
+
+  <script type="module">
+    import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    import { app } from './firebase-config.js';
+
+    const db = getFirestore(app);
+    const urlParams = new URLSearchParams(window.location.search);
+    const workerId = urlParams.get('id');
+
+    async function loadWorkerProfile() {
+      if (!workerId) {
+        window.location.href = 'profile.html';
+        return;
+      }
+
+      const docRef = doc(db, "users", workerId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const worker = docSnap.data();
+        displayWorkerProfile(worker);
+      } else {
+        alert("لم يتم العثور على الصنايعي");
+        window.location.href = 'profile.html';
+      }
+    }
+
+    function displayWorkerProfile(worker) {
+      const profileContainer = document.getElementById('workerProfile');
+      profileContainer.innerHTML = `
+        <!-- تصميم مفصل لصفحة الصنايعي -->
+      `;
+    }
+
+    loadWorkerProfile();
+  </script>
+</body>
+</html>
