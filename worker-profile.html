@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <!-- نفس هيكل header و styles من profile.html -->
+</head>
+<body>
+  <!-- نفس الهيدر والقائمة -->
+  
+  <div class="profile-container" id="workerProfileContainer">
+    <div class="auth-required" style="display:none; text-align:center; padding:50px;">
+      <h3>يجب تسجيل الدخول لعرض هذه الصفحة</h3>
+      <a href="login.html" class="auth-button">تسجيل الدخول</a>
+      <a href="signup.html" class="auth-button">إنشاء حساب جديد</a>
+    </div>
+    
+    <div id="workerProfileContent" style="display:none;">
+      <!-- محتوى الملف الشخصي للصنايعي -->
+    </div>
+  </div>
+
+  <script type="module">
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { app } from './firebase-config.js';
+
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const urlParams = new URLSearchParams(window.location.search);
+    const workerId = urlParams.get('id');
+
+    onAuthStateChanged(auth, (user) => {
+      const authRequired = document.querySelector('.auth-required');
+      const profileContent = document.getElementById('workerProfileContent');
+      
+      if (!user) {
+        authRequired.style.display = 'block';
+        return;
+      }
+      
+      authRequired.style.display = 'none';
+      profileContent.style.display = 'block';
+      loadWorkerProfile(workerId);
+    });
+
+    async function loadWorkerProfile(workerId) {
+      try {
+        const docRef = doc(db, "users", workerId);
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+          // عرض بيانات الصنايعي هنا
+        } else {
+          alert("لم يتم العثور على الصنايعي");
+          window.location.href = "index.html";
+        }
+      } catch (error) {
+        console.error("Error loading worker:", error);
+      }
+    }
+  </script>
+</body>
+</html>
