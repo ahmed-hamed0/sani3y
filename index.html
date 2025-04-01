@@ -326,6 +326,172 @@
       color: #45a049;
     }
 
+    /* قسم الفلترة */
+.filter-section {
+  background-color: #f8f9fa;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.filter-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.filter-container h2 {
+  color: green;
+  margin-bottom: 25px;
+  font-size: 28px;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 250px;
+  text-align: right;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: bold;
+}
+
+.filter-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  font-size: 16px;
+}
+
+.filter-button {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-button:hover {
+  background-color: #006400;
+  transform: translateY(-2px);
+}
+
+/* نتائج البحث */
+.results-section {
+  padding: 30px 20px;
+  background-color: #f3f3f3;
+}
+
+.results-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.worker-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.worker-card:hover {
+  transform: translateY(-5px);
+}
+
+.worker-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.worker-info {
+  padding: 20px;
+}
+
+.worker-name {
+  font-size: 20px;
+  color: green;
+  margin-bottom: 10px;
+}
+
+.worker-specialty {
+  color: #666;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.worker-location {
+  color: #666;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.worker-rating {
+  color: #ffc107;
+  margin-bottom: 15px;
+}
+
+.view-profile {
+  display: inline-block;
+  background-color: green;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.view-profile:hover {
+  background-color: #006400;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .filter-row {
+    flex-direction: column;
+  }
+  
+  .filter-group {
+    width: 100%;
+  }
+}
+
     /* فوتر */
     footer {
       background-color: green;
@@ -386,6 +552,56 @@
     <a href="login.html">تسجيل الدخول</a>
     <a href="signup.html">تسجيل جديد</a>
   </section>
+
+  <!-- قسم فلترة الصنايعية -->
+<section class="filter-section">
+  <div class="filter-container">
+    <h2>ابحث عن الصنايعية المختصين</h2>
+    <form id="filterForm">
+      <div class="filter-row">
+        <div class="filter-group">
+          <label for="governorate">المحافظة:</label>
+          <select id="governorate" required>
+            <option value="">اختر المحافظة</option>
+            <option value="القاهرة">القاهرة</option>
+            <option value="الجيزة">الجيزة</option>
+            <option value="الإسكندرية">الإسكندرية</option>
+            <!-- باقي المحافظات -->
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="city">المدينة:</label>
+          <select id="city" required>
+            <option value="">اختر المدينة</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label for="specialty">التخصص:</label>
+          <select id="specialty" required>
+            <option value="">اختر التخصص</option>
+            <option value="سباك صحي">سباك صحي</option>
+            <option value="كهربائي منازل">كهربائي منازل</option>
+            <!-- باقي التخصصات -->
+          </select>
+        </div>
+      </div>
+      
+      <button type="submit" class="filter-button">
+        <i class="fas fa-search"></i> بحث
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- نتائج البحث -->
+<section class="results-section">
+  <div class="results-container" id="workersResults">
+    <!-- سيتم ملء هذا القسم بالنتائج من JavaScript -->
+    <div class="no-results">قم بتطبيق الفلتر لعرض نتائج البحث</div>
+  </div>
+</section>
 
   <!-- قسم الصنايعي مع الصورة والأزرار -->
   <section class="craftsman-section">
@@ -453,5 +669,101 @@
       overlayMenu.classList.toggle('active');
     }
   </script>
+
+  <script type="module">
+  import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+  import { app } from './firebase-config.js';
+
+  const db = getFirestore(app);
+  
+  // بيانات المدن لكل محافظة
+  const citiesData = {
+    "القاهرة": ["وسط البلد", "المعادي", "مدينة نصر"],
+    "الجيزة": ["6 أكتوبر", "الدقي", "العجوزة"],
+    "الإسكندرية": ["العجمي", "سيدي جابر", "المنتزه"]
+    // باقي المحافظات والمدن
+  };
+
+  // تحديث المدن عند اختيار المحافظة
+  document.getElementById('governorate').addEventListener('change', function() {
+    const citySelect = document.getElementById('city');
+    citySelect.innerHTML = '<option value="">اختر المدينة</option>';
+    
+    const selectedGov = this.value;
+    if (selectedGov && citiesData[selectedGov]) {
+      citiesData[selectedGov].forEach(city => {
+        const option = document.createElement('option');
+        option.value = city;
+        option.textContent = city;
+        citySelect.appendChild(option);
+      });
+    }
+  });
+
+  // معالجة نموذج الفلتر
+  document.getElementById('filterForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const governorate = document.getElementById('governorate').value;
+    const city = document.getElementById('city').value;
+    const specialty = document.getElementById('specialty').value;
+    
+    try {
+      // بناء استعلام Firestore
+      const q = query(
+        collection(db, "users"),
+        where("userType", "==", "worker"),
+        where("governorate", "==", governorate),
+        where("city", "==", city),
+        where("specialty", "==", specialty)
+      );
+      
+      const querySnapshot = await getDocs(q);
+      displayResults(querySnapshot);
+    } catch (error) {
+      console.error("Error searching workers:", error);
+      alert("حدث خطأ أثناء البحث. يرجى المحاولة لاحقاً.");
+    }
+  });
+
+  // عرض نتائج البحث
+  function displayResults(querySnapshot) {
+    const resultsContainer = document.getElementById('workersResults');
+    resultsContainer.innerHTML = '';
+    
+    if (querySnapshot.empty) {
+      resultsContainer.innerHTML = '<div class="no-results">لا توجد نتائج مطابقة لبحثك</div>';
+      return;
+    }
+    
+    querySnapshot.forEach((doc) => {
+      const worker = doc.data();
+      const workerCard = `
+        <div class="worker-card">
+          <img src="${worker.profileImage || 'assets/image/man.jpg'}" alt="${worker.fullName}" class="worker-image">
+          <div class="worker-info">
+            <h3 class="worker-name">${worker.fullName}</h3>
+            <p class="worker-specialty">
+              <i class="fas fa-tools"></i> ${worker.specialty}
+            </p>
+            <p class="worker-location">
+              <i class="fas fa-map-marker-alt"></i> ${worker.city} - ${worker.governorate}
+            </p>
+            <div class="worker-rating">
+              ${'★'.repeat(worker.rating || 0)}${'☆'.repeat(5 - (worker.rating || 0))}
+              <span>(${worker.jobsCompleted || 0} أعمال)</span>
+            </div>
+            <a href="worker-profile.html?id=${doc.id}" class="view-profile">
+              عرض الملف الشخصي
+            </a>
+          </div>
+        </div>
+      `;
+      resultsContainer.innerHTML += workerCard;
+    });
+  }
+</script>
+
+  
 </body>
 </html>
