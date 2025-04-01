@@ -793,7 +793,144 @@
     }
   </script>
 
-   <script src="search.js" defer></script>
+   <script type="module">
+  import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+  import { app } from './firebase-config.js';
+
+  const db = getFirestore(app);
+  
+  // بيانات المحافظات والمدن المحدثة
+  const citiesData = {
+    "القاهرة": ["وسط البلد", "المعادي", "مدينة نصر", "مصر الجديدة"],
+    "الجيزة": ["6 أكتوبر", "الدقي", "العجوزة", "الهرم"],
+    "الإسكندرية": ["العجمي", "سيدي جابر", "المنتزه", "سموحة"],
+    "الدقهلية": ["المنصورة", "طلخا", "ميت غمر"],
+    "الشرقية": ["الزقازيق", "العاشر من رمضان", "أبو كبير"]
+    // يمكنك إضافة باقي المحافظات والمدن هنا
+  };
+
+  // تعبئة قائمة المحافظات عند تحميل الصفحة
+  document.addEventListener('DOMContentLoaded', () => {
+    const governorateSelect = document.getElementById('governorate');
+    
+    // إضافة خيار افتراضي
+    governorateSelect.innerHTML = '<option value="">اختر المحافظة</option>';
+    
+    // تعبئة المحافظات
+    Object.keys(citiesData).forEach(governorate => {
+      const option = document.createElement('option');
+      option.value = governorate;
+      option.textContent = governorate;
+      governorateSelect.appendChild(option);
+    });
+  });
+
+  // تحديث المدن عند اختيار المحافظة
+  document.getElementById('governorate').addEventListener('change', function() {
+    const citySelect = document.getElementById('city');
+    citySelect.innerHTML = '<option value="">اختر المدينة</option>';
+    citySelect.disabled = false;
+    
+    const selectedGov = this.value;
+    if (selectedGov && citiesData[selectedGov]) {
+      citiesData[selectedGov].forEach(city => {
+        const option = document.createElement('option');
+        option.value = city;
+        option.textContent = city;
+        citySelect.appendChild(option);
+      });
+    } else {
+      citySelect.disabled = true;
+    }
+  });
+
+  // دالة لعرض رسائل الخطأ
+  function showError(message) {
+    const errorDiv = document.getElementById('errorMessage');
+    const errorText = document.getElementById('errorText');
+    
+    errorText.textContent = message;
+    errorDiv.style.display = 'flex';
+    
+    setTimeout(() => {
+      errorDiv.style.display = 'none';
+    }, 5000);
+  }
+
+  // معالجة نموذج البحث
+  document.getElementById('filterForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const governorate = document.getElementById('governorate').value;
+    const city = document.getElementById('city').value;
+    const specialty = document.getElementById('specialty').value;
+    
+    document.getElementById('errorMessage').style.display = 'none';
+    
+    if (!governorate || !city || !specialty) {
+      showError('الرجاء اختيار جميع خيارات الفلترة');
+      return;
+    }
+    
+    try {
+      const q = query(
+        collection(db, "users"),
+        where("userType", "==", "worker"),
+        where("governorate", "==", governorate),
+        where("city", "==", city),
+        where("specialty", "==", specialty)
+      );
+      
+      const querySnapshot = await getDocs(q);
+      
+      if (querySnapshot.empty) {
+        showError('لا توجد نتائج مطابقة لبحثك. حاول بتغيير معايير البحث');
+      } else {
+        displayResults(querySnapshot);
+      }
+    } catch (error) {
+      console.error("Error searching workers:", error);
+      showError('حدث خطأ تقني أثناء البحث. يرجى المحاولة لاحقاً');
+    }
+  });
+
+  // عرض نتائج البحث
+  function displayResults(querySnapshot) {
+    const resultsContainer = document.getElementById('workersResults');
+    resultsContainer.innerHTML = '';
+    
+    if (querySnapshot.empty) {
+      resultsContainer.innerHTML = '<div class="no-results">لا توجد نتائج مطابقة لبحثك</div>';
+      return;
+    }
+    
+    querySnapshot.forEach((doc) => {
+      const worker = doc.data();
+      const workerCard = `
+        <div class="worker-card">
+          <img src="${worker.profileImage || 'assets/image/man.jpg'}" alt="${worker.fullName}" class="worker-image">
+          <div class="worker-info">
+            <h3 class="worker-name">${worker.fullName}</h3>
+            <p class="worker-specialty">
+              <i class="fas fa-tools"></i> ${worker.specialty}
+            </p>
+            <p class="worker-location">
+              <i class="fas fa-map-marker-alt"></i> ${worker.city} - ${worker.governorate}
+            </p>
+            <div class="worker-rating">
+              ${'★'.repeat(worker.rating || 0)}${'☆'.repeat(5 - (worker.rating || 0))}
+              <span>(${worker.jobsCompleted || 0} أعمال)</span>
+            </div>
+            <a href="worker-profile.html?id=${doc.id}" class="view-profile">
+              عرض الملف الشخصي
+            </a>
+          </div>
+        </div>
+      `;
+      resultsContainer.innerHTML += workerCard;
+    });
+  }
+              </script>
 
   
 </body>
