@@ -586,43 +586,40 @@
     <a href="signup.html">تسجيل جديد</a>
   </section>
 
-  <!-- قسم فلترة الصنايعية -->
-<section class="filter-section">
-  <div class="filter-container">
-    <h2>ابحث عن صنايعى</h2>
-    <form id="filterForm">
-      <div class="filter-row">
+ <!-- قسم البحث والفلترة -->
+<section class="search-section">
+  <div class="search-container">
+    <h2>ابحث عن الصنايعية المختصين</h2>
+    <form id="searchForm">
+      <div class="search-filters">
+        <!-- فلتر المحافظة -->
         <div class="filter-group">
           <label for="governorate">المحافظة:</label>
           <select id="governorate" required>
             <option value="">اختر المحافظة</option>
-            <option value="القاهرة">القاهرة</option>
-            <option value="الجيزة">الجيزة</option>
-            <option value="الإسكندرية">الإسكندرية</option>
-            <!-- باقي المحافظات -->
+            <!-- يتم تعبئتها من JS -->
           </select>
         </div>
         
+        <!-- فلتر المدينة -->
         <div class="filter-group">
           <label for="city">المدينة:</label>
-          <select id="city" required>
+          <select id="city" required disabled>
             <option value="">اختر المدينة</option>
-            <option value="وسط البلد">وسط البلد</option>
           </select>
         </div>
         
+        <!-- فلتر التخصص -->
         <div class="filter-group">
           <label for="specialty">التخصص:</label>
           <select id="specialty" required>
             <option value="">اختر التخصص</option>
-            <option value="سباك صحي">سباك صحي</option>
-            <option value="كهربائي منازل">كهربائي منازل</option>
-            <!-- باقي التخصصات -->
+            <!-- يتم تعبئتها من JS -->
           </select>
         </div>
       </div>
       
-      <button type="submit" class="filter-button">
+      <button type="submit" class="search-button">
         <i class="fas fa-search"></i> بحث
       </button>
     </form>
@@ -631,13 +628,11 @@
 
 <!-- نتائج البحث -->
 <section class="results-section">
-  <div class="results-container" id="workersResults">
-    <!-- سيتم ملء هذا القسم بالنتائج من JavaScript -->
-    <div class="no-results">قم بتطبيق الفلتر لعرض نتائج البحث</div>
-  </div>
-  <div id="errorMessage" class="error-message" style="display: none;">
-  <i class="fas fa-exclamation-circle"></i>
-  <span id="errorText"></span>
+  <div id="searchResults" class="results-grid">
+    <div class="empty-state">
+      <i class="fas fa-search"></i>
+      <p>استخدم الفلتر أعلاه للعثور على الصنايعية</p>
+    </div>
   </div>
 </section>
 
