@@ -637,6 +637,90 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+    /* نتائج البحث */
+.results-section {
+  padding: 30px 20px;
+  background-color: #f3f3f3;
+}
+
+.results-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.worker-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.worker-card:hover {
+  transform: translateY(-5px);
+}
+
+.worker-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.worker-info {
+  padding: 20px;
+}
+
+.worker-name {
+  font-size: 20px;
+  color: green;
+  margin-bottom: 10px;
+}
+
+.worker-specialty {
+  color: #666;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.worker-location {
+  color: #666;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.worker-rating {
+  color: #ffc107;
+  margin-bottom: 15px;
+}
+
+.view-profile {
+  display: inline-block;
+  background-color: green;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.view-profile:hover {
+  background-color: #006400;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 18px;
+}
     
     /* فوتر */
     footer {
@@ -699,7 +783,7 @@
     <a href="signup.html">تسجيل جديد</a>
   </section>
 
-
+  
 <!-- قسم فلترة الصنايعية -->
 <section class="filter-section">
   <div class="filter-container">
@@ -730,15 +814,13 @@
             <option value="نجار">نجار</option>
             <option value="مبلط">مبلط</option>
             <option value="نقاش">نقاش</option>
-            <!-- يمكنك إضافة المزيد من التخصصات -->
           </select>
         </div>
       </div>
 
-
       <div id="loadingIndicator" class="loading-indicator" style="display: none;">
-  <i class="fas fa-spinner fa-spin"></i>
-  <span>جاري البحث عن الصنايعية...</span>
+        <i class="fas fa-spinner fa-spin"></i>
+        <span>جاري البحث عن الصنايعية...</span>
       </div>
       
       <button type="submit" class="filter-button">
@@ -747,7 +829,12 @@
     </form>
   </div>
 </section>
-  
+  <!-- قسم نتائج البحث -->
+<section class="results-section">
+  <div class="results-container" id="workersResults">
+    <!-- سيتم تعبئة النتائج هنا بواسطة JavaScript -->
+  </div>
+</section>
 
   <!-- قسم الصنايعي مع الصورة والأزرار -->
   <section class="craftsman-section">
