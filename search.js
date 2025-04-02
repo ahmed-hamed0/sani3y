@@ -1,12 +1,12 @@
-// search.js
+// استبدل الكود الحالي بهذا الكود
 import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { app } from './firebase-config.js';
 
 const db = getFirestore(app);
 
 // بيانات الفلاتر
-const governorates = ["القاهرة", "الجيزة", "الإسكندرية"]; // أضف باقي المحافظات
-const specialties = ["سباك صحي", "كهربائي منازل", "نجار"]; // أضف جميع التخصصات
+const governorates = ["القاهرة", "الجيزة", "الإسكندرية", "الدقهلية", "الشرقية"];
+const specialties = ["سباك صحي", "كهربائي منازل", "نجار", "مبلط", "نقاش"];
 
 // تعبئة الفلاتر عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
@@ -32,14 +32,18 @@ function initFilters() {
     option.textContent = spec;
     specialtySelect.appendChild(option);
   });
-  
-  // تحديث المدن عند اختيار المحافظة
-  govSelect.addEventListener('change', updateCities);
 }
 
 // معالجة البحث
-document.getElementById('searchForm').addEventListener('submit', async (e) => {
+document.getElementById('filterForm').addEventListener('submit', async (e) => {
   e.preventDefault();
+  
+  const loadingIndicator = document.getElementById('loadingIndicator');
+  const searchButton = document.querySelector('.filter-button');
+  
+  // عرض مؤشر التحميل
+  loadingIndicator.style.display = 'flex';
+  searchButton.disabled = true;
   
   const governorate = document.getElementById('governorate').value;
   const city = document.getElementById('city').value;
@@ -59,12 +63,15 @@ document.getElementById('searchForm').addEventListener('submit', async (e) => {
   } catch (error) {
     console.error("Search error:", error);
     showError("حدث خطأ أثناء البحث. يرجى المحاولة لاحقاً");
+  } finally {
+    loadingIndicator.style.display = 'none';
+    searchButton.disabled = false;
   }
 });
 
 // عرض النتائج
 function displayResults(querySnapshot) {
-  const resultsContainer = document.getElementById('searchResults');
+  const resultsContainer = document.getElementById('workersResults');
   
   if (querySnapshot.empty) {
     resultsContainer.innerHTML = `
@@ -93,4 +100,21 @@ function displayResults(querySnapshot) {
     `;
     resultsContainer.innerHTML += workerCard;
   });
+}
+
+// عرض رسالة خطأ
+function showError(message) {
+  const errorDiv = document.createElement('div');
+  errorDiv.className = 'error-message';
+  errorDiv.innerHTML = `
+    <i class="fas fa-exclamation-circle"></i>
+    <span>${message}</span>
+  `;
+  
+  const form = document.getElementById('filterForm');
+  form.appendChild(errorDiv);
+  
+  setTimeout(() => {
+    errorDiv.remove();
+  }, 5000);
 }
