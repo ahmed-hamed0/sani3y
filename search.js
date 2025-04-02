@@ -151,7 +151,7 @@ function displayResults(querySnapshot) {
     const workerCard = document.createElement('div');
     workerCard.className = 'worker-card';
     workerCard.innerHTML = `
-      <img src="${worker.profileImage || 'assets/image/man.jpg'}" alt="${worker.fullName}" class="worker-image">
+      <img src="${worker.profileImage || 'assets/image/craftsman.jpg'}" alt="${worker.fullName}" class="worker-image">
       <div class="worker-info">
         <h3 class="worker-name">${worker.fullName || "غير معروف"}</h3>
         <p class="worker-specialty">
