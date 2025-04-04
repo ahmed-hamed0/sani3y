@@ -10,5 +10,20 @@ const firebaseConfig = {
   appId: "1:880517005136:web:e7f08efdadee45ec943655"
 };
 
-export const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+// تهيئة Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// جعل db متاحًا عالميًا لاستخدامه في الملفات الأخرى
+export { db, app };
+
+// دالة مساعدة لجلب عدد المستندات
+export const getCollectionCount = async (collectionName) => {
+  try {
+    const snapshot = await getDocs(collection(db, collectionName));
+    return snapshot.size;
+  } catch (error) {
+    console.error(`Error getting ${collectionName} count:`, error);
+    return 0;
+  }
+};
