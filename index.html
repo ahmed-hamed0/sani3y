@@ -753,34 +753,51 @@
 
 
 
-
-.mySlides {display: none;}
-img {vertical-align: middle;}
-
-/* Slideshow container */
+/* إزالة العرض الثابت لجعل الصور تأخذ عرض الشاشة بالكامل */
 .slideshow-container {
-  max-width: 900px;
+  width: 100%;
+  max-width: 100%; /* تغيير من 900px إلى 100% */
   position: relative;
-  margin: 0 auto; /* توسيط العنصر */
+  margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden; /* لمنع أي تجاوز للحدود */
 }
 
+/* جعل الصور تأخذ عرض الشاشة بالكامل */
+.mySlides {
+  width: 100%;
+}
 
-/* The dots/bullets/indicators */
+.mySlides img {
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* للحفاظ على نسب الصورة */
+}
+
+/* تعديلات للشاشات الكبيرة */
+@media only screen and (min-width: 768px) {
+  .slideshow-container {
+    height: 80vh; /* يمكنك تعديل الارتفاع حسب الحاجة */
+  }
+  
+  .mySlides img {
+    min-height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* بقية الأنماط كما هي */
 .dot-container {
   text-align: center;
   margin-top: 10px;
 }
 
-
-
 .active {
   background-color: #717171;
 }
 
-/* Fading animation */
 .fade {
   animation-name: fade;
   animation-duration: 1.5s;
@@ -790,13 +807,6 @@ img {vertical-align: middle;}
   from {opacity: .4} 
   to {opacity: 1}
 }
-
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-  .text {font-size: 11px}
-}
-
-
 
 
 
@@ -841,20 +851,16 @@ img {vertical-align: middle;}
 
 
   <div class="slideshow-container">
-
-<div class="mySlides fade">
-  <img src="assets/image/design1.png" style="width:100%">
-</div>
-
-<div class="mySlides fade">
-  <img src="assets/image/design2.png" style="width:100%">
-</div>
-
-<div class="mySlides fade">
-  <img src="assets/image/design3.png" style="width:100%">
-</div>
-
-</div>
+      <div class="mySlides fade">
+        <img src="assets/image/design1.png" alt="Design 1">
+      </div>
+      <div class="mySlides fade">
+        <img src="assets/image/design2.png" alt="Design 2">
+      </div>
+      <div class="mySlides fade">
+        <img src="assets/image/design3.png" alt="Design 3">
+      </div>
+  </div>
 
 
 
