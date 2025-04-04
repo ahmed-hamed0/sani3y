@@ -1,9 +1,7 @@
-import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js";
-import { app } from './firebase-config.js';
+import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { db } from './firebase-config.js';
 
-const db = getFirestore(app);
-
-// بيانات الفلاتر
+// بيانات الفلاتر (يجب أن تكون متطابقة مع بياناتك الفعلية)
 const governorates = {
   "القاهرة": ["مدينة نصر", "المعادي", "التجمع الخامس"],
   "الجيزة": ["الهرم", "الدقي", "المهندسين"],
@@ -11,6 +9,8 @@ const governorates = {
   "الدقهلية": ["المنصورة", "طلخا", "ميت غمر"],
   "الشرقية": ["الزقازيق", "العاشر من رمضان", "بلبيس"]
 };
+
+
 const specialties = ["سباك صحي", "كهربائي منازل", "نجار", "مبلط", "نقاش"];
 
 // تعبئة الفلاتر عند تحميل الصفحة
