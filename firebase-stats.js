@@ -8,54 +8,46 @@ document.addEventListener('DOMContentLoaded', function() {
         appId: "1:880517005136:web:e7f08efdadee45ec943655"
     };
 
-    // تهيئة Firebase
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
 
     const db = firebase.firestore();
 
-    // دالة محسنة لجلب العدد مع وجود تسجيل للأخطاء
     async function getCollectionCount(collectionName) {
         try {
+            // استخدم count() للحصول على العدد مباشرة دون جلب كل المستندات
             const snapshot = await db.collection(collectionName).count().get();
-            console.log(`Number of ${collectionName}:`, snapshot.data().count);
             return snapshot.data().count;
         } catch (error) {
             console.error(`Error getting ${collectionName} count:`, error);
-            return 0;
+            
+            // محاولة بديلة إذا لم يعمل count()
+            try {
+                const snapshot = await db.collection(collectionName).get();
+                return snapshot.size;
+            } catch (fallbackError) {
+                console.error(`Fallback error for ${collectionName}:`, fallbackError);
+                return 0;
+            }
         }
     }
 
     async function updateCounts() {
-        console.log("Updating counts...");
         try {
-            const [craftsmenCount, clientsCount] = await Promise.all([
-                getCollectionCount('craftsmen'),
-                getCollectionCount('clients')
-            ]);
+            const craftsmenCount = await getCollectionCount('craftsmen');
+            const clientsCount = await getCollectionCount('clients');
             
-            console.log("Counts:", {craftsmenCount, clientsCount});
+            console.log('Craftsmen count:', craftsmenCount);
+            console.log('Clients count:', clientsCount);
             
             document.getElementById('craftsmenCount').textContent = craftsmenCount;
             document.getElementById('clientsCount').textContent = clientsCount;
         } catch (error) {
-            console.error("Error updating counts:", error);
+            console.error('Error updating counts:', error);
         }
     }
 
-    // تحديث الأعداد مع إعادة المحاولة عند الفشل
-    function initializeWithRetry(retries = 3, delay = 1000) {
-        updateCounts().catch(error => {
-            if (retries > 0) {
-                console.log(`Retrying... ${retries} attempts left`);
-                setTimeout(() => initializeWithRetry(retries - 1, delay * 2), delay);
-            } else {
-                console.error("Failed after multiple attempts:", error);
-            }
-        });
-    }
-
-    initializeWithRetry();
+    updateCounts();
     setInterval(updateCounts, 60000);
 });
