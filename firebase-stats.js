@@ -1,6 +1,4 @@
-// هذه الدالة ستعمل بعد تحميل الصفحة
 document.addEventListener('DOMContentLoaded', function() {
-    // استبدل بتفاصيل مشروع Firebase الخاص بك
     const firebaseConfig = {
         apiKey: "AIzaSyDxd_9W5-Qc8rqSfGrKogla3xmHBX8liIg",
         authDomain: "sani3ydotcom.firebaseapp.com",
@@ -10,39 +8,54 @@ document.addEventListener('DOMContentLoaded', function() {
         appId: "1:880517005136:web:e7f08efdadee45ec943655"
     };
 
-    // تهيئة Firebase إذا لم تكن مهيئة بالفعل
+    // تهيئة Firebase
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
 
-    // الحصول على مرجع لقاعدة البيانات
     const db = firebase.firestore();
 
-    // دالة لجلب عدد المستندات في مجموعة معينة
+    // دالة محسنة لجلب العدد مع وجود تسجيل للأخطاء
     async function getCollectionCount(collectionName) {
         try {
-            const snapshot = await db.collection(collectionName).get();
-            return snapshot.size;
+            const snapshot = await db.collection(collectionName).count().get();
+            console.log(`Number of ${collectionName}:`, snapshot.data().count);
+            return snapshot.data().count;
         } catch (error) {
-            console.error("Error getting documents count: ", error);
+            console.error(`Error getting ${collectionName} count:`, error);
             return 0;
         }
     }
 
-    // دالة لتحديث الأعداد في الواجهة
     async function updateCounts() {
-        // افترض أن لديك مجموعتين في Firebase تسمى 'craftsmen' و 'clients'
-        const craftsmenCount = await getCollectionCount('craftsmen');
-        const clientsCount = await getCollectionCount('clients');
-
-        // تحديث الأرقام في الواجهة
-        document.getElementById('craftsmenCount').textContent = craftsmenCount;
-        document.getElementById('clientsCount').textContent = clientsCount;
+        console.log("Updating counts...");
+        try {
+            const [craftsmenCount, clientsCount] = await Promise.all([
+                getCollectionCount('craftsmen'),
+                getCollectionCount('clients')
+            ]);
+            
+            console.log("Counts:", {craftsmenCount, clientsCount});
+            
+            document.getElementById('craftsmenCount').textContent = craftsmenCount;
+            document.getElementById('clientsCount').textContent = clientsCount;
+        } catch (error) {
+            console.error("Error updating counts:", error);
+        }
     }
 
-    // استدعاء الدالة لتحديث الأعداد عند تحميل الصفحة
-    updateCounts();
+    // تحديث الأعداد مع إعادة المحاولة عند الفشل
+    function initializeWithRetry(retries = 3, delay = 1000) {
+        updateCounts().catch(error => {
+            if (retries > 0) {
+                console.log(`Retrying... ${retries} attempts left`);
+                setTimeout(() => initializeWithRetry(retries - 1, delay * 2), delay);
+            } else {
+                console.error("Failed after multiple attempts:", error);
+            }
+        });
+    }
 
-    // (اختياري) تحديث الأعداد كل فترة زمنية معينة (مثلاً كل دقيقة)
+    initializeWithRetry();
     setInterval(updateCounts, 60000);
 });
