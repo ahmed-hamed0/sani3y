@@ -1,14 +1,13 @@
-// تأكد من أنك قمت بإعداد Firebase في مشروعك مسبقاً
 // هذه الدالة ستعمل بعد تحميل الصفحة
 document.addEventListener('DOMContentLoaded', function() {
     // استبدل بتفاصيل مشروع Firebase الخاص بك
     const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_AUTH_DOMAIN",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_STORAGE_BUCKET",
-        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-        appId: "YOUR_APP_ID"
+        apiKey: "AIzaSyDxd_9W5-Qc8rqSfGrKogla3xmHBX8liIg",
+        authDomain: "sani3ydotcom.firebaseapp.com",
+        projectId: "sani3ydotcom",
+        storageBucket: "sani3ydotcom.appspot.com",
+        messagingSenderId: "880517005136",
+        appId: "1:880517005136:web:e7f08efdadee45ec943655"
     };
 
     // تهيئة Firebase إذا لم تكن مهيئة بالفعل
