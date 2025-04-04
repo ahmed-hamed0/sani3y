@@ -753,62 +753,87 @@
 
 
 
-/* إزالة العرض الثابت لجعل الصور تأخذ عرض الشاشة بالكامل */
+
+
+
+
+
+    /* إزالة العرض الثابت لجعل الصور متجاوبة */
 .slideshow-container {
   width: 100%;
-  max-width: 100%; /* تغيير من 900px إلى 100% */
+  max-width: 100%;
   position: relative;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden; /* لمنع أي تجاوز للحدود */
+  margin: 0 auto;
+  overflow: hidden;
+  aspect-ratio: 16/9; /* نسبة العرض إلى الارتفاع */
 }
 
-/* جعل الصور تأخذ عرض الشاشة بالكامل */
 .mySlides {
   width: 100%;
+  display: none; /* سيتم التحكم بالعرض عبر JavaScript */
 }
 
 .mySlides img {
   width: 100%;
-  height: auto;
-  object-fit: cover; /* للحفاظ على نسب الصورة */
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* تعديلات للشاشات الصغيرة */
+@media only screen and (max-width: 767px) {
+  .slideshow-container {
+    height: 40vh;
+  }
+}
+
+/* تعديلات للشاشات المتوسطة */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  .slideshow-container {
+    height: 50vh;
+  }
 }
 
 /* تعديلات للشاشات الكبيرة */
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1024px) {
   .slideshow-container {
-    height: 50vh; /* يمكنك تعديل الارتفاع حسب الحاجة */
+    height: 60vh;
+    max-width: 1400px; /* تحديد أقصى عرض للشاشات الكبيرة */
   }
   
   .mySlides img {
-    min-height: 80%;
-    object-fit: cover;
+    object-fit: contain; /* أو cover حسب احتياجاتك */
+    max-height: 80vh;
   }
 }
 
-/* بقية الأنماط كما هي */
-.dot-container {
-  text-align: center;
-  margin-top: 10px;
+/* لمنع الصور من أن تصبح كبيرة جداً في الشاشات العريضة */
+@media only screen and (min-width: 1600px) {
+  .slideshow-container {
+    height: 70vh;
+  }
 }
 
-.active {
-  background-color: #717171;
-}
 
-.fade {
+
+
+
+
+
+
+
+    .fade {
   animation-name: fade;
   animation-duration: 1.5s;
+  animation-fill-mode: forwards;
 }
 
 @keyframes fade {
-  from {opacity: .4} 
-  to {opacity: 1}
+  from { opacity: 0.4; transform: scale(1.02); }
+  to { opacity: 1; transform: scale(1); }
 }
 
-
+    
 
 
 
