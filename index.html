@@ -11,69 +11,9 @@
 <meta name="theme-color" content="#ffffff">
 
 
-  <style>
-#install-banner {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  padding: 15px;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: sans-serif;
-}
-#install-banner img {
-  height: 40px;
-  margin-right: 10px;
-}
-#install-banner button {
-  background: #0d6efd;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-}
-</style>
+  
 
-<script>
-let deferredPrompt;
 
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-
-  const banner = document.createElement('div');
-  banner.id = 'install-banner';
-  banner.innerHTML = `
-    <div style="display: flex; align-items: center;">
-      <img src="/icon-192.png" alt="icon">
-      <div>"Sani3y" تثبيت الموقع</div>
-    </div>
-    <button id="installBtn">تثبيت</button>
-  `;
-  document.body.appendChild(banner);
-
-  document.getElementById('installBtn').addEventListener('click', () => {
-    banner.remove();
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the install prompt');
-      } else {
-        console.log('User dismissed the install prompt');
-      }
-      deferredPrompt = null;
-    });
-  });
-});
-</script>
 
   
   <style>
@@ -905,8 +845,34 @@ window.addEventListener('beforeinstallprompt', (e) => {
     
 
 
-
-
+#install-banner {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 15px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: sans-serif;
+}
+#install-banner img {
+  height: 40px;
+  margin-right: 10px;
+}
+#install-banner button {
+  background: #0d6efd;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
 
     
@@ -1157,25 +1123,32 @@ if ('serviceWorker' in navigator) {
 
 
 
+  
+
+
+
+
+
   <script>
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
-  // منع العرض التلقائي
   e.preventDefault();
   deferredPrompt = e;
 
-  // عرض زر للمستخدم
-  const installBanner = document.createElement('div');
-  installBanner.innerHTML = `
-    <div style="position: fixed; top: 0; left: 0; right: 0; background: #008000; padding: 15px; text-align: center; z-index: 1000;">
-      "صنايعى دوت كوم" <button id="installBtn">تثبيت</button>
+  const banner = document.createElement('div');
+  banner.id = 'install-banner';
+  banner.innerHTML = `
+    <div style="display: flex; align-items: center;">
+      <img src="/icon-192.png" alt="icon">
+      <div>"Sani3y" تثبيت الموقع</div>
     </div>
+    <button id="installBtn">تثبيت</button>
   `;
-  document.body.appendChild(installBanner);
+  document.body.appendChild(banner);
 
   document.getElementById('installBtn').addEventListener('click', () => {
-    installBanner.remove();
+    banner.remove();
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then((choiceResult) => {
       if (choiceResult.outcome === 'accepted') {
@@ -1188,5 +1161,6 @@ window.addEventListener('beforeinstallprompt', (e) => {
   });
 });
   </script>
+  
 </body>
 </html>
