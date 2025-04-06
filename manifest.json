@@ -18,3 +18,25 @@
     }
   ]
 }
+
+
+{
+  "name": "صنايعى دوت كوم",
+  "short_name": "صنايعى دوت كوم",
+  "start_url": "https://ahmed-hamed0.github.io/sani3y/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "assets/image/toolsman.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/image/toolsman.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
