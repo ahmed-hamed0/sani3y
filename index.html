@@ -1073,5 +1073,53 @@ function showSlides() {
   
 <script src="firebase-stats.js"></script>
 <script type="module" src="search.js"></script>
+
+
+
+
+
+
+
+
+  <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register(sw.js')
+    .then(() => console.log('Service Worker registered'));
+}
+  </script>
+
+
+
+  <script>
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  // منع العرض التلقائي
+  e.preventDefault();
+  deferredPrompt = e;
+
+  // عرض زر للمستخدم
+  const installBanner = document.createElement('div');
+  installBanner.innerHTML = `
+    <div style="position: fixed; top: 0; left: 0; right: 0; background: #eee; padding: 15px; text-align: center; z-index: 1000;">
+      "صنايعى دوت كوم" <button id="installBtn">تثبيت</button>
+    </div>
+  `;
+  document.body.appendChild(installBanner);
+
+  document.getElementById('installBtn').addEventListener('click', () => {
+    installBanner.remove();
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('User accepted the install prompt');
+      } else {
+        console.log('User dismissed the install prompt');
+      }
+      deferredPrompt = null;
+    });
+  });
+});
+  </script>
 </body>
 </html>
