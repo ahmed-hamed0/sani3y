@@ -1,27 +1,5 @@
 {
   "name": "صنايعى دوت كوم",
-  "short_name": "sani3y.com",
-  "start_url": "ahmed-hamed0/github.io/sani3y",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#008000",
-  "icons": [
-    {
-      "src": "assets/image/toolsmang.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "assets/image/toolsman.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
-}
-
-
-{
-  "name": "صنايعى دوت كوم",
   "short_name": "صنايعى دوت كوم",
   "start_url": "https://ahmed-hamed0.github.io/sani3y/",
   "display": "standalone",
