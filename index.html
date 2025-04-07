@@ -1116,8 +1116,15 @@ function showSlides() {
 
   <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register(sw.js')
-    .then(() => console.log('Service Worker registered'));
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('ServiceWorker registration successful');
+      })
+      .catch(err => {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+  });
 }
   </script>
 
@@ -1131,24 +1138,19 @@ if ('serviceWorker' in navigator) {
 
   <script>
 let deferredPrompt;
+const installButton = document.createElement('button');
+installButton.textContent = 'تثبيت التطبيق';
+installButton.style.display = 'none';
+installButton.classList.add('install-button');
+document.querySelector('header').appendChild(installButton);
 
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-
-  const banner = document.createElement('div');
-  banner.id = 'install-banner';
-  banner.innerHTML = `
-    <div style="display: flex; align-items: center;">
-      <img src="assets/image/toolsman.png" alt="icon">
-      <div>"Sani3y" تثبيت الموقع</div>
-    </div>
-    <button id="installBtn">تثبيت</button>
-  `;
-  document.body.appendChild(banner);
-
-  document.getElementById('installBtn').addEventListener('click', () => {
-    banner.remove();
+  installButton.style.display = 'block';
+  
+  installButton.addEventListener('click', () => {
+    installButton.style.display = 'none';
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then((choiceResult) => {
       if (choiceResult.outcome === 'accepted') {
