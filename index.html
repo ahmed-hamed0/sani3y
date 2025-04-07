@@ -13,7 +13,7 @@
 
   
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   
   <style>
@@ -892,7 +892,40 @@
   background-color: #006400;
 }
 
-    
+
+/* زر التثبيت العائم */
+#floating-install-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+#floating-install-btn:hover {
+  background-color: #1565c0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+#floating-install-btn i {
+  font-size: 18px;
+}
+
+
+
+                                    
   </style>
 </head>
 <body>
@@ -1178,6 +1211,52 @@ window.addEventListener('beforeinstallprompt', (e) => {
       deferredPrompt = null;
     });
   });
+});
+
+
+
+
+
+
+
+    let deferredPrompt;
+
+// إنشاء زر التثبيت العائم
+const installButton = document.createElement('button');
+installButton.id = 'floating-install-btn';
+installButton.innerHTML = '<i class="fas fa-download"></i> تثبيت التطبيق';
+document.body.appendChild(installButton);
+
+// عرض الزر عند توفر إمكانية التثبيت
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installButton.style.display = 'flex';
+  
+  // إضافة تأثير ظهور تدريجي
+  setTimeout(() => {
+    installButton.style.opacity = '1';
+  }, 100);
+});
+
+// التعامل مع النقر على زر التثبيت
+installButton.addEventListener('click', () => {
+  installButton.style.opacity = '0';
+  
+  setTimeout(() => {
+    installButton.style.display = 'none';
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('تم قبول التثبيت');
+        } else {
+          console.log('تم رفض التثبيت');
+        }
+        deferredPrompt = null;
+      });
+    }
+  }, 300);
 });
   </script>
   
