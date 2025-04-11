@@ -307,7 +307,7 @@ function displayResults(querySnapshot) {
           ${'★'.repeat(worker.rating || 0)}${'☆'.repeat(5 - (worker.rating || 0))}
           <span>(${worker.jobsCompleted || 0} أعمال)</span>
         </div>
-        <a href="profile.html?id=${doc.id}" class="view-profile">
+        <a href="worker-profile.html?id=${doc.id}" class="view-profile">
           عرض الملف الشخصي
         </a>
       </div>
