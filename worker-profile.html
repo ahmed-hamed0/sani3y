@@ -1,34 +1,550 @@
-// استبدل الكود الحالي بهذا الكود
-async function loadWorkerProfile(workerId) {
-  try {
-    // عرض مؤشر التحميل
-    const loadingOverlay = document.querySelector('.loading-overlay');
-    if (loadingOverlay) loadingOverlay.style.display = 'flex';
-    
-    const docRef = doc(db, "users", workerId);
-    const docSnap = await getDoc(docRef);
-    
-    if (docSnap.exists()) {
-      const workerData = docSnap.data();
-      // تحديث واجهة المستخدم ببيانات الصنايعي
-      document.getElementById("userName").textContent = workerData.fullName || "غير معروف";
-      document.getElementById("userType").innerHTML = `<i class="fas fa-tools"></i> ${workerData.specialty || "غير محدد"}`;
-      document.getElementById("location").innerHTML = `<i class="fas fa-map-marker-alt"></i> ${workerData.city || "غير محدد"} - ${workerData.governorate || "غير محدد"}`;
-      
-      // تحديث التقييم إذا كان متاحاً
-      if (workerData.rating) {
-        const stars = '★'.repeat(Math.round(workerData.rating)) + '☆'.repeat(5 - Math.round(workerData.rating));
-        document.querySelector('.rating').innerHTML = `${stars} <span>(${workerData.jobsCompleted || 0} أعمال مكتملة)</span>`;
-      }
-    } else {
-      alert("لم يتم العثور على الصنايعي");
-      window.location.href = "index.html";
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الملف الشخصي للصنايعي | صنايعى دوت كوم</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    /* أنماط عامة */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #333;
     }
-  } catch (error) {
-    console.error("Error loading worker:", error);
-    alert("حدث خطأ أثناء تحميل بيانات الصنايعي");
-  } finally {
-    const loadingOverlay = document.querySelector('.loading-overlay');
-    if (loadingOverlay) loadingOverlay.style.display = 'none';
-  }
-}
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    /* هيدر الصفحة */
+    .profile-header {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .profile-image {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid #f5f5f5;
+      margin-bottom: 15px;
+    }
+    
+    .profile-name {
+      font-size: 24px;
+      color: green;
+      margin: 10px 0;
+    }
+    
+    .profile-specialty {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    
+    .profile-location {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 15px;
+    }
+    
+    .rating {
+      color: #ffc107;
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+    
+    .rating-count {
+      color: #666;
+      font-size: 14px;
+    }
+    
+    .contact-button {
+      background-color: green;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 10px 5px;
+      transition: background-color 0.3s;
+    }
+    
+    .contact-button:hover {
+      background-color: #006400;
+    }
+    
+    /* قسم تفاصيل الصنايعي */
+    .profile-details {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .section-title {
+      color: green;
+      font-size: 20px;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .detail-item {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: flex-start;
+    }
+    
+    .detail-icon {
+      color: green;
+      margin-left: 10px;
+      font-size: 18px;
+      width: 25px;
+    }
+    
+    .detail-content {
+      flex: 1;
+    }
+    
+    .detail-label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .detail-value {
+      color: #666;
+    }
+    
+    /* قسم الأعمال السابقة */
+    .portfolio-section {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .portfolio-item {
+      border-radius: 8px;
+      overflow: hidden;
+      height: 200px;
+      position: relative;
+    }
+    
+    .portfolio-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    
+    .portfolio-item:hover .portfolio-image {
+      transform: scale(1.05);
+    }
+    
+    /* قسم التقييمات */
+    .reviews-section {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    
+    .review-item {
+      border-bottom: 1px solid #eee;
+      padding: 15px 0;
+    }
+    
+    .review-item:last-child {
+      border-bottom: none;
+    }
+    
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .reviewer-name {
+      font-weight: bold;
+    }
+    
+    .review-date {
+      color: #999;
+      font-size: 14px;
+    }
+    
+    .review-content {
+      color: #666;
+    }
+    
+    /* مؤشر التحميل */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255,255,255,0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    
+    .loading-spinner {
+      font-size: 50px;
+      color: green;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* زر الرجوع */
+    .back-button {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: green;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    
+    .back-button i {
+      margin-right: 5px;
+    }
+    
+    /* التصميم المتجاوب */
+    @media (max-width: 768px) {
+      .profile-header {
+        padding: 15px;
+      }
+      
+      .profile-image {
+        width: 120px;
+        height: 120px;
+      }
+      
+      .portfolio-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- مؤشر التحميل -->
+  <div class="loading-overlay">
+    <i class="fas fa-spinner loading-spinner"></i>
+  </div>
+
+  <div class="container">
+    <!-- زر الرجوع -->
+    <a href="index.html" class="back-button">
+      <i class="fas fa-arrow-left"></i> العودة للصفحة الرئيسية
+    </a>
+    
+    <!-- هيدر الملف الشخصي -->
+    <div class="profile-header">
+      <img id="profileImage" src="assets/image/craftsman.jpg" alt="صورة الصنايعي" class="profile-image">
+      <h1 id="userName" class="profile-name">اسم الصنايعي</h1>
+      <p id="userType" class="profile-specialty">
+        <i class="fas fa-tools"></i> تخصص الصنايعي
+      </p>
+      <p id="location" class="profile-location">
+        <i class="fas fa-map-marker-alt"></i> موقع الصنايعي
+      </p>
+      <div class="rating">
+        ★★★★☆ <span class="rating-count">(12 تقييم)</span>
+      </div>
+      <div>
+        <button class="contact-button" onclick="contactWorker()">
+          <i class="fas fa-phone"></i> اتصل الآن
+        </button>
+        <button class="contact-button" onclick="sendMessage()">
+          <i class="fas fa-comment"></i> إرسال رسالة
+        </button>
+      </div>
+    </div>
+    
+    <!-- قسم تفاصيل الصنايعي -->
+    <div class="profile-details">
+      <h2 class="section-title">
+        <i class="fas fa-info-circle"></i> معلومات عن الصنايعي
+      </h2>
+      
+      <div class="detail-item">
+        <div class="detail-icon">
+          <i class="fas fa-briefcase"></i>
+        </div>
+        <div class="detail-content">
+          <div class="detail-label">سنوات الخبرة</div>
+          <div id="experience" class="detail-value">5 سنوات</div>
+        </div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="detail-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="detail-content">
+          <div class="detail-label">الأعمال المكتملة</div>
+          <div id="jobsCompleted" class="detail-value">24 عمل</div>
+        </div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="detail-icon">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="detail-content">
+          <div class="detail-label">التقييم العام</div>
+          <div id="overallRating" class="detail-value">4.2 من 5</div>
+        </div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="detail-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="detail-content">
+          <div class="detail-label">أوقات العمل</div>
+          <div id="workingHours" class="detail-value">8 صباحاً - 5 مساءً</div>
+        </div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="detail-icon">
+          <i class="fas fa-file-alt"></i>
+        </div>
+        <div class="detail-content">
+          <div class="detail-label">نبذة عن الصنايعي</div>
+          <div id="bio" class="detail-value">صنايعي محترف بخبرة طويلة في مجال عمله، يقدم خدمات عالية الجودة بأسعار مناسبة.</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- قسم الأعمال السابقة -->
+    <div class="portfolio-section">
+      <h2 class="section-title">
+        <i class="fas fa-images"></i> معرض الأعمال السابقة
+      </h2>
+      
+      <div class="portfolio-grid" id="portfolioGrid">
+        <!-- سيتم تعبئتها بواسطة JavaScript -->
+        <div class="portfolio-item">
+          <img src="assets/image/work1.jpg" alt="عمل سابق" class="portfolio-image">
+        </div>
+        <div class="portfolio-item">
+          <img src="assets/image/work2.jpg" alt="عمل سابق" class="portfolio-image">
+        </div>
+        <div class="portfolio-item">
+          <img src="assets/image/work3.jpg" alt="عمل سابق" class="portfolio-image">
+        </div>
+      </div>
+    </div>
+    
+    <!-- قسم التقييمات -->
+    <div class="reviews-section">
+      <h2 class="section-title">
+        <i class="fas fa-star"></i> تقييمات العملاء
+      </h2>
+      
+      <div id="reviewsContainer">
+        <!-- سيتم تعبئتها بواسطة JavaScript -->
+        <div class="review-item">
+          <div class="review-header">
+            <span class="reviewer-name">محمد أحمد</span>
+            <span class="review-date">15 يناير 2023</span>
+          </div>
+          <div class="review-rating">
+            ★★★★★
+          </div>
+          <div class="review-content">
+            عمل ممتاز ودقيق، أنصح به بشدة لكل من يبحث عن صنايعي محترف.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+  
+  <script>
+    // تهيئة Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDxd_9W5-Qc8rqSfGrKogla3xmHBX8liIg",
+      authDomain: "sani3ydotcom.firebaseapp.com",
+      projectId: "sani3ydotcom",
+      storageBucket: "sani3ydotcom.appspot.com",
+      messagingSenderId: "880517005136",
+      appId: "1:880517005136:web:e7f08efdadee45ec943655"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore(app);
+
+    // دالة تحميل بيانات الصنايعي
+    async function loadWorkerProfile() {
+      try {
+        // عرض مؤشر التحميل
+        document.querySelector('.loading-overlay').style.display = 'flex';
+        
+        // الحصول على معرف الصنايعي من URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const workerId = urlParams.get('id');
+        
+        if (!workerId) {
+          throw new Error("لم يتم تحديد صنايعي");
+        }
+        
+        // جلب بيانات الصنايعي من Firebase
+        const docRef = db.collection("users").doc(workerId);
+        const docSnap = await docRef.get();
+        
+        if (!docSnap.exists) {
+          throw new Error("لم يتم العثور على الصنايعي");
+        }
+        
+        const workerData = docSnap.data();
+        
+        // تحديث واجهة المستخدم ببيانات الصنايعي
+        document.getElementById("userName").textContent = workerData.fullName || "غير معروف";
+        document.getElementById("userType").innerHTML = `<i class="fas fa-tools"></i> ${workerData.specialty || "غير محدد"}`;
+        document.getElementById("location").innerHTML = `<i class="fas fa-map-marker-alt"></i> ${workerData.city || "غير محدد"} - ${workerData.governorate || "غير محدد"}`;
+        
+        // تحديث الصورة إذا كانت متوفرة
+        if (workerData.profileImage) {
+          document.getElementById("profileImage").src = workerData.profileImage;
+        }
+        
+        // تحديث الخبرة والأعمال المكتملة
+        document.getElementById("experience").textContent = workerData.experience ? `${workerData.experience} سنوات` : "غير محدد";
+        document.getElementById("jobsCompleted").textContent = workerData.jobsCompleted ? `${workerData.jobsCompleted} عمل` : "غير محدد";
+        
+        // تحديث التقييم
+        if (workerData.rating) {
+          const stars = '★'.repeat(Math.round(workerData.rating)) + '☆'.repeat(5 - Math.round(workerData.rating));
+          document.querySelector('.rating').innerHTML = `${stars} <span class="rating-count">(${workerData.jobsCompleted || 0} أعمال)</span>`;
+          document.getElementById("overallRating").textContent = `${workerData.rating.toFixed(1)} من 5`;
+        }
+        
+        // تحديث أوقات العمل
+        if (workerData.workingHours) {
+          document.getElementById("workingHours").textContent = workerData.workingHours;
+        }
+        
+        // تحديث السيرة الذاتية
+        if (workerData.bio) {
+          document.getElementById("bio").textContent = workerData.bio;
+        }
+        
+        // جلب أعمال الصنايعي السابقة (إذا كانت متوفرة)
+        if (workerData.portfolio && workerData.portfolio.length > 0) {
+          const portfolioGrid = document.getElementById('portfolioGrid');
+          portfolioGrid.innerHTML = '';
+          
+          workerData.portfolio.forEach(imageUrl => {
+            const portfolioItem = document.createElement('div');
+            portfolioItem.className = 'portfolio-item';
+            portfolioItem.innerHTML = `<img src="${imageUrl}" alt="عمل سابق" class="portfolio-image">`;
+            portfolioGrid.appendChild(portfolioItem);
+          });
+        }
+        
+        // جلب تقييمات الصنايعي (إذا كانت متوفرة)
+        if (workerData.reviews && workerData.reviews.length > 0) {
+          const reviewsContainer = document.getElementById('reviewsContainer');
+          reviewsContainer.innerHTML = '';
+          
+          workerData.reviews.forEach(review => {
+            const reviewItem = document.createElement('div');
+            reviewItem.className = 'review-item';
+            
+            const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+            
+            reviewItem.innerHTML = `
+              <div class="review-header">
+                <span class="reviewer-name">${review.clientName || "عميل"}</span>
+                <span class="review-date">${formatDate(review.date)}</span>
+              </div>
+              <div class="review-rating">
+                ${stars}
+              </div>
+              <div class="review-content">
+                ${review.comment || "لا يوجد تعليق"}
+              </div>
+            `;
+            
+            reviewsContainer.appendChild(reviewItem);
+          });
+        }
+        
+      } catch (error) {
+        console.error("Error loading worker profile:", error);
+        alert("حدث خطأ أثناء تحميل الملف الشخصي. يرجى المحاولة لاحقاً.");
+        window.location.href = "index.html";
+      } finally {
+        // إخفاء مؤشر التحميل
+        document.querySelector('.loading-overlay').style.display = 'none';
+      }
+    }
+    
+    // دالة تنسيق التاريخ
+    function formatDate(timestamp) {
+      if (!timestamp) return "غير معروف";
+      
+      const date = timestamp.toDate();
+      return date.toLocaleDateString('ar-EG', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    }
+    
+    // دالة الاتصال بالصنايعي
+    function contactWorker() {
+      const phoneNumber = "01012345678"; // يمكن جلب هذا الرقم من بيانات الصنايعي
+      window.location.href = `tel:${phoneNumber}`;
+    }
+    
+    // دالة إرسال رسالة
+    function sendMessage() {
+      const phoneNumber = "01012345678"; // يمكن جلب هذا الرقم من بيانات الصنايعي
+      window.open(`https://wa.me/${phoneNumber}`, '_blank');
+    }
+    
+    // تحميل بيانات الصنايعي عند تحميل الصفحة
+    window.addEventListener('DOMContentLoaded', loadWorkerProfile);
+  </script>
+</body>
+</html>
