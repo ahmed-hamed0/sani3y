@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الملف الشخصي للصنايعي | صنايعى دوت كوم</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    /* أنماط CSS السابقة */
+  </style>
+</head>
+<body>
+  <div class="loading-overlay">
+    <i class="fas fa-spinner loading-spinner"></i>
+  </div>
+
+  <div class="container">
+    <a href="index.html" class="back-button">
+      <i class="fas fa-arrow-left"></i> العودة
+    </a>
+    
+    <div class="profile-header">
+      <img id="profileImage" src="assets/image/craftsman.jpg" class="profile-image">
+      <h1 id="userName" class="profile-name">جاري التحميل...</h1>
+      <p id="userType" class="profile-specialty">
+        <i class="fas fa-tools"></i> <span>جاري التحميل...</span>
+      </p>
+      <p id="location" class="profile-location">
+        <i class="fas fa-map-marker-alt"></i> <span>جاري التحميل...</span>
+      </p>
+      <div class="rating">★★★★☆</div>
+      <div>
+        <button class="contact-button" id="phoneButton">
+          <i class="fas fa-phone"></i> اتصل الآن
+        </button>
+        <button class="contact-button" id="messageButton">
+          <i class="fas fa-comment"></i> إرسال رسالة
+        </button>
+      </div>
+    </div>
+    
+    <!-- باقي أقسام الصفحة -->
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDxd_9W5-Qc8rqSfGrKogla3xmHBX8liIg",
+      authDomain: "sani3ydotcom.firebaseapp.com",
+      projectId: "sani3ydotcom",
+      storageBucket: "sani3ydotcom.appspot.com",
+      messagingSenderId: "880517005136",
+      appId: "1:880517005136:web:e7f08efdadee45ec943655"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function loadWorkerProfile() {
+      try {
+        document.querySelector('.loading-overlay').style.display = 'flex';
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const workerId = urlParams.get('id');
+        
+        if (!workerId) {
+          throw new Error("لم يتم تحديد صنايعي");
+        }
+        
+        const docRef = doc(db, "users", workerId);
+        const docSnap = await getDoc(docRef);
+        
+        if (!docSnap.exists()) {
+          throw new Error("لم يتم العثور على الصنايعي");
+        }
+        
+        const workerData = docSnap.data();
+        
+        // تحديث البيانات
+        document.getElementById("userName").textContent = workerData.fullName || "غير معروف";
+        document.getElementById("userType").innerHTML = `<i class="fas fa-tools"></i> ${workerData.specialty || "غير محدد"}`;
+        document.getElementById("location").innerHTML = `<i class="fas fa-map-marker-alt"></i> ${workerData.city || "غير محدد"} - ${workerData.governorate || "غير محدد"}`;
+        
+        // تحديث أزرار الاتصال
+        if (workerData.phone) {
+          document.getElementById('phoneButton').onclick = () => window.location.href = `tel:${workerData.phone}`;
+          document.getElementById('messageButton').onclick = () => window.open(`https://wa.me/${workerData.phone}`, '_blank');
+        } else {
+          document.getElementById('phoneButton').style.display = 'none';
+          document.getElementById('messageButton').style.display = 'none';
+        }
+        
+      } catch (error) {
+        console.error("Error:", error);
+        alert("حدث خطأ: " + error.message);
+        window.location.href = "index.html";
+      } finally {
+        document.querySelector('.loading-overlay').style.display = 'none';
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadWorkerProfile);
+  </script>
+</body>
+</html>
