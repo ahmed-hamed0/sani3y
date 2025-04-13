@@ -55,7 +55,21 @@ signupForm.addEventListener('submit', async (e) => {
   const specialty = userType === 'worker' ? document.getElementById('specialty').value : '';
   const governorate = document.getElementById('governorate').value;
   const city = document.getElementById('city').value;
+// في دالة التسجيل
+const countryCode = document.getElementById('countryCode').value;
+const phoneNumber = document.getElementById('phone').value;
 
+// تنظيف رقم الهاتف من أي أحرف غير رقمية
+const cleanedPhone = phoneNumber.replace(/\D/g, '');
+
+// دمج رمز الدولة مع رقم الهاتف (مع إزالة الصفر الأول إذا كان موجوداً)
+const fullPhoneNumber = countryCode + cleanedPhone.replace(/^0+/, '');
+
+// ثم استخدم fullPhoneNumber في حفظ البيانات
+
+
+
+  
   // التحقق من صحة البيانات
   if (!validateForm(fullName, email, phone, password, governorate, city, userType, specialty)) {
     submitBtn.textContent = originalBtnText;
@@ -168,3 +182,5 @@ function handleSignupError(error) {
   
   alert(errorMessage);
 }
+
+
