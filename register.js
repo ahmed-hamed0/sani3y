@@ -36,6 +36,13 @@ userTypeSelect.addEventListener('change', function() {
   specialtyGroup.style.display = this.value === 'worker' ? 'block' : 'none';
 });
 
+// دالة التحقق من صحة رقم الهاتف المصري
+function validateEgyptPhoneNumber(phone) {
+  // يجب أن يبدأ بـ 1 أو 2 أو 5 وأن يكون طوله 9 أرقام (بدون +20)
+  const regex = /^(1|2|5)\d{8}$/;
+  return regex.test(phone);
+}
+
 // معالجة إرسال النموذج
 signupForm.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -49,40 +56,29 @@ signupForm.addEventListener('submit', async (e) => {
   // جمع بيانات النموذج
   const fullName = document.getElementById('fullName').value;
   const email = document.getElementById('email').value;
-  const phone = document.getElementById('phone').value;
+  const phoneInput = document.getElementById('phone').value;
   const password = document.getElementById('password').value;
   const userType = userTypeSelect.value;
   const specialty = userType === 'worker' ? document.getElementById('specialty').value : '';
   const governorate = document.getElementById('governorate').value;
   const city = document.getElementById('city').value;
 
-  // الحصول على رقم الهاتف
-const phoneNumber = document.getElementById('phone').value;
+  // تنظيف رقم الهاتف من أي أحرف غير رقمية
+  const cleanedPhone = phoneInput.replace(/\D/g, '');
 
-// تنظيف رقم الهاتف من أي أحرف غير رقمية
-const cleanedPhone = phoneNumber.replace(/\D/g, '');
+  // التحقق من صحة الرقم المصري
+  if (!validateEgyptPhoneNumber(cleanedPhone)) {
+    alert('رقم الهاتف غير صحيح. يجب أن يبدأ بـ 1 أو 2 أو 5 ويتكون من 10 أرقام (بعد إضافة +20)');
+    submitBtn.textContent = originalBtnText;
+    submitBtn.disabled = false;
+    return;
+  }
 
-// دمج رمز الدولة مع رقم الهاتف (مع إزالة الصفر الأول إذا كان موجوداً)
-const fullPhoneNumber = '+20' + cleanedPhone.replace(/^0+/, '');
+  // دمج رمز الدولة مع رقم الهاتف
+  const fullPhoneNumber = '+20' + cleanedPhone;
 
-// استخدام fullPhoneNumber في حفظ البيانات
-
-
-
-  function validateEgyptPhoneNumber(phone) {
-  // يجب أن يبدأ بـ 1 أو 2 أو 5 وأن يكون طوله 10 أرقام (بعد إضافة +20)
-  const regex = /^(\+20)?(1|2|5)\d{9}$/;
-  return regex.test(phone);
-}
-
-// استخدام الدالة في التسجيل
-if (!validateEgyptPhoneNumber(fullPhoneNumber)) {
-  alert('رقم الهاتف غير صحيح. يجب أن يبدأ بـ 1 أو 2 أو 5 ويتكون من 10 أرقام');
-  return;
-}
-  
   // التحقق من صحة البيانات
-  if (!validateForm(fullName, email, phone, password, governorate, city, userType, specialty)) {
+  if (!validateForm(fullName, email, fullPhoneNumber, password, governorate, city, userType, specialty)) {
     submitBtn.textContent = originalBtnText;
     submitBtn.disabled = false;
     return;
@@ -100,7 +96,7 @@ if (!validateEgyptPhoneNumber(fullPhoneNumber)) {
     await setDoc(doc(db, "users", user.uid), {
       fullName,
       email,
-      phone,
+      phone: fullPhoneNumber, // هنا نستخدم الرقم الكامل مع رمز الدولة
       userType,
       specialty,
       governorate,
@@ -115,10 +111,10 @@ if (!validateEgyptPhoneNumber(fullPhoneNumber)) {
     // توجيه المستخدم بناءً على نوعه
     if (userType === 'worker') {
       alert('تم تسجيل حسابك بنجاح! يرجى التحقق من بريدك الإلكتروني ثم إكمال ملفك الشخصي.');
-      window.location.href = 'complete-profile.html';
+      window.location.href = 'login.html';
     } else {
       alert('تم تسجيل حسابك بنجاح! يرجى التحقق من بريدك الإلكتروني.');
-      window.location.href = 'profile.html';
+      window.location.href = 'login.html';
     }
 
   } catch (error) {
@@ -145,7 +141,6 @@ function validateForm(fullName, email, phone, password, governorate, city, userT
     return false;
   }
 
-
   if (password.length < 6) {
     alert('كلمة المرور يجب أن تكون 6 أحرف على الأقل');
     return false;
@@ -159,7 +154,6 @@ function validateEmail(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(email);
 }
-
 
 // معالجة أخطاء التسجيل
 function handleSignupError(error) {
@@ -184,5 +178,3 @@ function handleSignupError(error) {
   
   alert(errorMessage);
 }
-
-
