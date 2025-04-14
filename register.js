@@ -36,12 +36,7 @@ userTypeSelect.addEventListener('change', function() {
   specialtyGroup.style.display = this.value === 'worker' ? 'block' : 'none';
 });
 
-// دالة التحقق من صحة رقم الهاتف المصري
-function validateEgyptPhoneNumber(phone) {
-  // يجب أن يبدأ بـ 1 أو 2 أو 5 وأن يكون طوله 9 أرقام (بدون +20)
-  const regex = /^(1|2|5)\d{8}$/;
-  return regex.test(phone);
-}
+
 
 // معالجة إرسال النموذج
 signupForm.addEventListener('submit', async (e) => {
@@ -66,19 +61,13 @@ signupForm.addEventListener('submit', async (e) => {
   // تنظيف رقم الهاتف من أي أحرف غير رقمية
   const cleanedPhone = phoneInput.replace(/\D/g, '');
 
-  // التحقق من صحة الرقم المصري
-  if (!validateEgyptPhoneNumber(cleanedPhone)) {
-    alert('رقم الهاتف غير صحيح. يجب أن يبدأ بـ 1 أو 2 أو 5 ويتكون من 10 أرقام (بعد إضافة +20)');
-    submitBtn.textContent = originalBtnText;
-    submitBtn.disabled = false;
-    return;
-  }
+  
 
   // دمج رمز الدولة مع رقم الهاتف
-  const fullPhoneNumber = '+20' + cleanedPhone;
+  const Phone = '+20' + cleanedPhone;
 
   // التحقق من صحة البيانات
-  if (!validateForm(fullName, email, fullPhoneNumber, password, governorate, city, userType, specialty)) {
+  if (!validateForm(fullName, email, Phone, password, governorate, city, userType, specialty)) {
     submitBtn.textContent = originalBtnText;
     submitBtn.disabled = false;
     return;
