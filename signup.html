@@ -237,9 +237,14 @@
       <div class="input-group">
   <label for="phone">رقم الهاتف</label>
   <div style="display: flex; align-items: center;">
-    <input type="tel" id="phone" required style="border-radius: 0 4px 4px 0; flex: 1;" placeholder="أدخل رقم الهاتف بدون الصفر الأول (مثال: 1234567890)">
     <span style="background: #f0f0f0; padding: 10px; border: 1px solid #ccc; border-radius: 4px 0 0 4px; border-right: none;">+20</span>
+    <input type="tel" id="phone" required 
+           style="border-radius: 0 4px 4px 0; flex: 1;" 
+           placeholder="مثال: 1063252412"
+           pattern="[0-9]{10}"
+           title="أدخل 10 أرقام بدون الصفر الأول">
   </div>
+  <small style="color: #666;">أدخل 10 أرقام فقط (بدون +20 أو الصفر الأول)</small>
       </div>
 
 
