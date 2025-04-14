@@ -69,6 +69,17 @@ const fullPhoneNumber = '+20' + cleanedPhone.replace(/^0+/, '');
 
 
 
+  function validateEgyptPhoneNumber(phone) {
+  // يجب أن يبدأ بـ 1 أو 2 أو 5 وأن يكون طوله 10 أرقام (بعد إضافة +20)
+  const regex = /^(\+20)?(1|2|5)\d{9}$/;
+  return regex.test(phone);
+}
+
+// استخدام الدالة في التسجيل
+if (!validateEgyptPhoneNumber(fullPhoneNumber)) {
+  alert('رقم الهاتف غير صحيح. يجب أن يبدأ بـ 1 أو 2 أو 5 ويتكون من 10 أرقام');
+  return;
+}
   
   // التحقق من صحة البيانات
   if (!validateForm(fullName, email, phone, password, governorate, city, userType, specialty)) {
