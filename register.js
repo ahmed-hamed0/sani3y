@@ -145,10 +145,6 @@ function validateForm(fullName, email, phone, password, governorate, city, userT
     return false;
   }
 
-  if (!validatePhone(phone)) {
-    alert('رقم الهاتف يجب أن يكون 11 رقما ويبدأ بـ 01');
-    return false;
-  }
 
   if (password.length < 6) {
     alert('كلمة المرور يجب أن تكون 6 أحرف على الأقل');
@@ -164,11 +160,6 @@ function validateEmail(email) {
   return re.test(email);
 }
 
-// التحقق من صحة رقم الهاتف (مصر)
-function validatePhone(phone) {
-  const re = /^01[0125][0-9]{8}$/;
-  return re.test(phone);
-}
 
 // معالجة أخطاء التسجيل
 function handleSignupError(error) {
