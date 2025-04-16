@@ -182,6 +182,34 @@
       width: 100%;
       bottom: 0;
     }
+
+
+
+      /* تنسيق قائمة كود الدولة */
+#countryCode {
+  background-color: #f8f8f8;
+  color: #333;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* تنسيق حقل إدخال رقم الهاتف */
+#phone {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-left: none;
+}
+
+/* التأكد من أن العناصر متساوية في الارتفاع */
+.input-group > div {
+  display: flex;
+  align-items: stretch;
+}
+
+/* تحسين مظهر القائمة المنسدلة */
+#countryCode option {
+  padding: 5px;
+}
   </style>
     <!-- في نهاية ملف signup.html -->
 
@@ -234,18 +262,22 @@
 
 
 
-      <div class="input-group">
+   <div class="input-group">
   <label for="phone">رقم الهاتف</label>
-  <div style="display: flex; align-items: center;">
-    <span style="background: #f0f0f0; padding: 10px; border: 1px solid #ccc; border-radius: 4px 0 0 4px; border-right: none;">+20</span>
+  <div style="display: flex; direction: ltr;">
+    <select id="countryCode" style="width: 100px; padding: 10px; border: 1px solid #ccc; border-radius: 4px 0 0 4px; border-right: none;">
+      <option value="20" data-prefix="+20">مصر (+20)</option>
+      <option value="966" data-prefix="+966">السعودية (+966)</option>
+      <option value="971" data-prefix="+971">الإمارات (+971)</option>
+    </select>
     <input type="tel" id="phone" required 
-           style="border-radius: 0 4px 4px 0; flex: 1;" 
+           style="border-radius: 0 4px 4px 0; flex: 1; direction: rtl;" 
            placeholder="مثال: 1063252412"
-           pattern="[0-9]{10}"
-           title="أدخل 10 أرقام بدون الصفر الأول">
+           pattern="[0-9]{9,10}"
+           title="أدخل 9 أو 10 أرقام بدون الصفر الأول">
   </div>
-  <small style="color: #666;">أدخل 10 أرقام فقط (بدون +20 أو الصفر الأول)</small>
-      </div>
+  <small style="color: #666; display: block; text-align: right;" id="phoneExample"></small>
+</div>
 
 
 
@@ -494,6 +526,42 @@
       }
     });
   </script>
+ <script>
+    // تحديث مثال رقم الهاتف حسب الدولة المختارة
+document.getElementById('countryCode').addEventListener('change', function() {
+  updatePhoneExample();
+});
 
+function updatePhoneExample() {
+  const countryCode = document.getElementById('countryCode');
+  const selectedOption = countryCode.options[countryCode.selectedIndex];
+  const prefix = selectedOption.getAttribute('data-prefix');
+  const exampleMap = {
+    '20': '1063252412',
+    '966': '512345678',
+    '971': '501234567'
+  };
+  
+  document.getElementById('phoneExample').textContent = 
+    `مثال: ${prefix}${exampleMap[countryCode.value]}`;
+}
+
+// استدعاء الدالة عند التحميل لتعيين القيمة الافتراضية
+updatePhoneExample();
+
+// تعديل دالة التسجيل لدمج كود الدولة مع رقم الهاتف
+document.getElementById('signupForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  
+  // دمج كود الدولة مع رقم الهاتف
+  const countryCode = document.getElementById('countryCode').value;
+  const phoneNumber = document.getElementById('phone').value;
+  const fullPhoneNumber = countryCode + phoneNumber;
+  
+  // باقي كود التسجيل...
+  console.log('رقم الهاتف الكامل:', fullPhoneNumber);
+  // أرسل fullPhoneNumber إلى قاعدة البيانات بدلاً من رقم الهاتف فقط
+});
+   </script>
 </body>
 </html>
