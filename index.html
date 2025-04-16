@@ -925,6 +925,210 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* أنماط قسم طلبات العمل */
+.job-requests-section {
+  background-color: #f9f9f9;
+  padding: 40px 0;
+  margin-top: 30px;
+}
+
+.job-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+  align-items: center;
+}
+
+.job-filters .filter-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.job-filters label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: bold;
+}
+
+.job-filters select {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: white;
+}
+
+.filter-button {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+}
+
+.job-requests-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.job-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.job-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.job-title {
+  font-size: 18px;
+  color: green;
+  margin: 0;
+}
+
+.job-price {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.job-details {
+  margin-bottom: 15px;
+}
+
+.job-detail {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.job-detail i {
+  margin-left: 8px;
+  color: green;
+  width: 20px;
+  text-align: center;
+}
+
+.job-description {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.job-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+}
+
+.job-location {
+  color: #777;
+  font-size: 14px;
+}
+
+.apply-button {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.apply-button:hover {
+  background-color: #006400;
+}
+
+.loading-jobs {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 30px;
+  color: #555;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.loading-jobs i {
+  font-size: 30px;
+}
+
+.no-jobs {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 30px;
+  color: #666;
+}
+
+.no-jobs i {
+  font-size: 40px;
+  margin-bottom: 15px;
+  color: #ccc;
+}
+
+/* التصميم المتجاوب */
+@media (max-width: 768px) {
+  .job-requests-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .job-filters {
+    flex-direction: column;
+  }
+  
+  .job-filters .filter-group {
+    width: 100%;
+  }
+  
+  .filter-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
                                     
   </style>
 </head>
@@ -940,8 +1144,6 @@
     <nav>
       <a href="profile.html">ابحث عن صنايعي</a>
       <a href="find-work.html">ابحث عن عمل</a>
-      <a href="why-us.html">لماذا نحن؟</a>
-      <a href="pricing.html">الأسعار</a>
       <a href="login.html">تسجيل الدخول</a>
     </nav>
   </header>
@@ -950,9 +1152,8 @@
   <div class="overlay" id="overlayMenu">
     <a href="profile.html">ابحث عن صنايعي</a>
     <a href="find-work.html">ابحث عن عمل </a>
-    <a href="why-us.html">لماذا نحن؟</a>
-    <a href="pricing.html">الأسعار</a>
     <a href="login.html">تسجيل الدخول</a>
+    <a href="signup.html">تسجيل جديد</a>
   </div>
 
 
@@ -974,6 +1175,60 @@
 
 
 
+
+
+
+
+
+
+  <!-- أضف هذا القسم في صفحة worker-profile.html -->
+<section class="job-requests-section">
+  <div class="container">
+    <h2 class="section-title">
+      <i class="fas fa-bell"></i> طلبات العمل المتاحة
+    </h2>
+    
+    <div class="job-filters">
+      <div class="filter-group">
+        <label for="job-location">المكان:</label>
+        <select id="job-location">
+          <option value="">الكل</option>
+          <option value="القاهرة">القاهرة</option>
+          <option value="الجيزة">الجيزة</option>
+          <!-- بقية المدن -->
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="job-category">التخصص:</label>
+        <select id="job-category">
+          <option value="">الكل</option>
+          <option value="سباك صحي">سباك صحي</option>
+          <option value="كهربائي">كهربائي</option>
+          <!-- بقية التخصصات -->
+        </select>
+      </div>
+      
+      <button class="filter-button" id="apply-filters">
+        <i class="fas fa-filter"></i> تصفية
+      </button>
+    </div>
+    
+    <div class="job-requests-container" id="jobRequestsContainer">
+      <!-- سيتم تعبئة الطلبات هنا بواسطة JavaScript -->
+      <div class="loading-jobs">
+        <i class="fas fa-spinner fa-spin"></i>
+        <span>جاري تحميل طلبات العمل...</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+  
 
 
   
@@ -1235,6 +1490,219 @@ installButton.addEventListener('click', () => {
   }, 300);
 });
   </script>
+
+
+
+
+   <script>
+
+
+     // أضف هذا الكود في worker-profile.html
+async function loadJobRequests() {
+  try {
+    const container = document.getElementById('jobRequestsContainer');
+    container.innerHTML = `
+      <div class="loading-jobs">
+        <i class="fas fa-spinner fa-spin"></i>
+        <span>جاري تحميل طلبات العمل...</span>
+      </div>
+    `;
+    
+    // جلب طلبات العمل من Firebase
+    const jobsQuery = query(
+      collection(db, "jobRequests"),
+      where("status", "==", "open"),
+      orderBy("createdAt", "desc"),
+      limit(10)
+    );
+    
+    const querySnapshot = await getDocs(jobsQuery);
+    
+    if (querySnapshot.empty) {
+      container.innerHTML = `
+        <div class="no-jobs">
+          <i class="fas fa-folder-open"></i>
+          <p>لا توجد طلبات عمل متاحة حالياً</p>
+        </div>
+      `;
+      return;
+    }
+    
+    container.innerHTML = '';
+    
+    querySnapshot.forEach((doc) => {
+      const job = doc.data();
+      const jobCard = document.createElement('div');
+      jobCard.className = 'job-card';
+      jobCard.innerHTML = `
+        <div class="job-header">
+          <h3 class="job-title">${job.title}</h3>
+          <span class="job-price">${job.price} جنيه</span>
+        </div>
+        
+        <div class="job-details">
+          <div class="job-detail">
+            <i class="fas fa-tools"></i>
+            <span>${job.category}</span>
+          </div>
+          <div class="job-detail">
+            <i class="fas fa-calendar-alt"></i>
+            <span>${formatDate(job.date)}</span>
+          </div>
+          <div class="job-detail">
+            <i class="fas fa-clock"></i>
+            <span>${job.time}</span>
+          </div>
+        </div>
+        
+        <div class="job-description">
+          ${job.description}
+        </div>
+        
+        <div class="job-footer">
+          <div class="job-location">
+            <i class="fas fa-map-marker-alt"></i>
+            ${job.location}
+          </div>
+          <button class="apply-button" data-job-id="${doc.id}">
+            <i class="fas fa-paper-plane"></i> تقديم
+          </button>
+        </div>
+      `;
+      
+      container.appendChild(jobCard);
+    });
+    
+    // إضافة حدث النقر على أزرار التقديم
+    document.querySelectorAll('.apply-button').forEach(button => {
+      button.addEventListener('click', () => applyForJob(button.dataset.jobId));
+    });
+    
+  } catch (error) {
+    console.error("Error loading job requests:", error);
+    document.getElementById('jobRequestsContainer').innerHTML = `
+      <div class="error-message">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>حدث خطأ أثناء تحميل طلبات العمل</span>
+      </div>
+    `;
+  }
+}
+
+// دالة التقديم على العمل
+async function applyForJob(jobId) {
+  try {
+    const workerId = new URLSearchParams(window.location.search).get('id');
+    if (!workerId) {
+      alert('يجب تسجيل الدخول أولاً');
+      return;
+    }
+    
+    // جلب بيانات الصنايعي
+    const workerDoc = await getDoc(doc(db, "users", workerId));
+    if (!workerDoc.exists()) {
+      throw new Error("بيانات الصنايعي غير موجودة");
+    }
+    
+    const workerData = workerDoc.data();
+    
+    // إنشاء طلب التقديم
+    const applicationData = {
+      jobId: jobId,
+      workerId: workerId,
+      workerName: workerData.fullName,
+      workerSpecialty: workerData.specialty,
+      workerRating: workerData.rating || 0,
+      appliedAt: new Date(),
+      status: "pending"
+    };
+    
+    // إضافة التقديم إلى Firebase
+    await addDoc(collection(db, "jobApplications"), applicationData);
+    
+    // إرسال إشعار للعميل
+    const notificationData = {
+      type: "new_application",
+      jobId: jobId,
+      workerId: workerId,
+      message: `تقدم ${workerData.fullName} على طلبك للعمل`,
+      createdAt: new Date(),
+      read: false
+    };
+    
+    await addDoc(collection(db, "notifications"), notificationData);
+    
+    alert('تم تقديم طلبك بنجاح! سيتم التواصل معك قريباً');
+    
+  } catch (error) {
+    console.error("Error applying for job:", error);
+    alert('حدث خطأ أثناء التقديم: ' + error.message);
+  }
+}
+
+// دالة تصفية الطلبات
+function setupJobFilters() {
+  document.getElementById('apply-filters').addEventListener('click', async () => {
+    const location = document.getElementById('job-location').value;
+    const category = document.getElementById('job-category').value;
+    
+    try {
+      const container = document.getElementById('jobRequestsContainer');
+      container.innerHTML = `
+        <div class="loading-jobs">
+          <i class="fas fa-spinner fa-spin"></i>
+          <span>جاري تطبيق الفلتر...</span>
+        </div>
+      `;
+      
+      let jobsQuery = query(
+        collection(db, "jobRequests"),
+        where("status", "==", "open"),
+        orderBy("createdAt", "desc")
+      );
+      
+      // إضافة الفلاتر إذا كانت محددة
+      if (location) {
+        jobsQuery = query(jobsQuery, where("location", "==", location));
+      }
+      
+      if (category) {
+        jobsQuery = query(jobsQuery, where("category", "==", category));
+      }
+      
+      const querySnapshot = await getDocs(jobsQuery);
+      
+      container.innerHTML = '';
+      
+      if (querySnapshot.empty) {
+        container.innerHTML = `
+          <div class="no-jobs">
+            <i class="fas fa-search"></i>
+            <p>لا توجد نتائج مطابقة للفلتر المحدد</p>
+          </div>
+        `;
+        return;
+      }
+      
+      querySnapshot.forEach((doc) => {
+        // نفس كود عرض الطلبات السابق
+      });
+      
+    } catch (error) {
+      console.error("Error filtering jobs:", error);
+      alert('حدث خطأ أثناء التصفية');
+    }
+  });
+}
+
+// استدعاء الدوال عند تحميل الصفحة
+window.addEventListener('DOMContentLoaded', () => {
+  loadJobRequests();
+  setupJobFilters();
+});
+
+     
+   </script>
   
 </body>
 </html>
